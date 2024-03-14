@@ -368,7 +368,7 @@ function printTable (subNum) {
                 subjectName = subEl[1].innerText;
 
             const hrefAttr = document.createAttribute("src");
-            hrefAttr.value = "../img/" + yearEl.value + "/" + typeEl.value + "/" + monthEl.value + "/" + subjectName + ".png"
+            hrefAttr.value = "./img/" + yearEl.value + "/" + typeEl.value + "/" + monthEl.value + "/" + subjectName + ".png"
             imgEl.setAttributeNode(hrefAttr);
         }
     })
