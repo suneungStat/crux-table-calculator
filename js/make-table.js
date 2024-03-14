@@ -173,13 +173,29 @@ function makeTable() {
                 divEl.innerHTML = tableType1;
             }
 
+            const tbodyEl = divEl.firstElementChild.lastElementChild;
             // 제2외국어가 없는가?
             if(typeEl.id == "1st" || typeEl.id == "2nd" && monthEl.value != "10" && monthEl.value != "11") {
                 const sfl = document.querySelector("#sfl");
                 sfl.parentNode.removeChild(sfl);
+            } else {
+                let sflList;
+                if(typeEl.id == "2nd" || typeEl.id == "3rd" && monthEl.value == "10") {
+                    sflList = ["독일어Ⅰ", "프랑스어Ⅰ", "스페인어Ⅰ", "중국어Ⅰ",
+                        "일본어Ⅰ", "러시아어Ⅰ", "한문Ⅰ"];
+                } else {
+                    sflList = ["독일어Ⅰ", "프랑스어Ⅰ", "스페인어Ⅰ", "중국어Ⅰ",
+                        "일본어Ⅰ", "러시아어Ⅰ", "아랍어Ⅰ", "베트남어Ⅰ", "한문Ⅰ"];
+                }
+                
+                const choiceEl = document.createElement("select");
+                const onclickAttr = document.createAttribute("onclick");
+                onclickAttr.value = "showInfo()";
+                choiceEl.setAttributeNode(onclickAttr);
+                addOpts(sflList, choiceEl);
+                tbodyEl.children[6].children[1].appendChild(choiceEl);
             }
 
-            const tbodyEl = divEl.firstElementChild.lastElementChild;
             if(typeEl.id == "1st") {
                 // 1학년인가? (1학년이면 탐구 선택과목 자동 지정)
                 if(monthEl.value == "3") {
@@ -195,31 +211,37 @@ function makeTable() {
                 if(typeEl.id == "2nd" && monthEl.value.length == 1 || 
                     typeEl.id == "3rd" && monthEl.value == "3")
                     expList = ["생활과 윤리", "윤리와 사상", "한국지리", "세계지리", "동아시아사",
-                    "세계사", "경제", "정치와 법", "사회·문화", "물리학Ⅰ", "화학Ⅰ", "생명과학Ⅰ",
+                    "세계사", "경제", "정치와 법", "사회∙문화", "물리학Ⅰ", "화학Ⅰ", "생명과학Ⅰ",
                     "지구과학Ⅰ"]
 
                 // 2학년 11(10)월 (기본에서 직업탐구 추가됨)
                 if(typeEl.id == "2nd" && monthEl.value.length == 2)
                     expList = ["생활과 윤리", "윤리와 사상", "한국지리", "세계지리", "동아시아사",
-                    "세계사", "경제", "정치와 법", "사회·문화", "물리학Ⅰ", "화학Ⅰ", "생명과학Ⅰ",
+                    "세계사", "경제", "정치와 법", "사회∙문화", "물리학Ⅰ", "화학Ⅰ", "생명과학Ⅰ",
                     "지구과학Ⅰ", "성공적인 직업생활", "농업 기초 기술", "공업 일반", "상업 경제", 
                     "수산·해운 산업 기초", "인간 발달"];
 
                 // 3학년 4(5), 7월 (기본에서 투과목 추가됨)
                 if(typeEl.id == "3rd" && (monthEl.value == "4" || monthEl.value == "5" || monthEl.value == "7"))
                     expList = ["생활과 윤리", "윤리와 사상", "한국지리", "세계지리", "동아시아사",
-                    "세계사", "경제", "정치와 법", "사회·문화", "물리학Ⅰ", "화학Ⅰ", "생명과학Ⅰ",
+                    "세계사", "경제", "정치와 법", "사회∙문화", "물리학Ⅰ", "화학Ⅰ", "생명과학Ⅰ",
                     "지구과학Ⅰ", "물리학Ⅱ", "화학Ⅱ", "생명과학Ⅱ", "지구과학Ⅱ"];
 
                 // 3학년 6월, 9월, 10월, 수능 (기본에서 투과목, 직업탐구 추가됨)
                 if(typeEl.id == "3rd" && monthEl.value == "10" || typeEl.id == "sat")
                     expList = ["생활과 윤리", "윤리와 사상", "한국지리", "세계지리", "동아시아사",
-                    "세계사", "경제", "정치와 법", "사회·문화", "물리학Ⅰ", "화학Ⅰ", "생명과학Ⅰ",
+                    "세계사", "경제", "정치와 법", "사회∙문화", "물리학Ⅰ", "화학Ⅰ", "생명과학Ⅰ",
                     "지구과학Ⅰ", "물리학Ⅱ", "화학Ⅱ", "생명과학Ⅱ", "지구과학Ⅱ", "성공적인 직업생활",
                     "농업 기초 기술", "공업 일반", "상업 경제", "수산·해운 산업 기초", "인간 발달"];
 
                 const choice1El = document.createElement("select");
                 const choice2El = document.createElement("select");
+                const onclickAttr1 = document.createAttribute("onclick");
+                onclickAttr1.value = "showInfo()";
+                const onclickAttr2 = document.createAttribute("onclick");
+                onclickAttr2.value = "showInfo()";
+                choice1El.setAttributeNode(onclickAttr1);
+                choice2El.setAttributeNode(onclickAttr2);
                 addOpts(expList, choice1El);
                 addOpts(expList, choice2El);
                 if(typeEl.id == "2nd") {
@@ -269,7 +291,7 @@ function showInfo() {
             if(typeEl.id == "1st" || typeEl.id == "2nd") {
                 const korEl = tbodyEl.children[0].children;
                 const korScore = korEl[2].firstChild.value; // 국어 원점수                
-                // 유효하지 않은 원점수 처리
+                // 원점수 처리
                 if(!korScore) {
                     korEl[3].innerText = korEl[4].innerText = korEl[5].innerText = ''; 
                 } else if (0 <= korScore && korScore <= 100 && korScore != 1 && korScore != 99) {
@@ -283,7 +305,7 @@ function showInfo() {
 
                 const mathEl = tbodyEl.children[1].children;
                 const mathScore = mathEl[2].firstChild.value; // 수학 원점수
-                // 유효하지 않은 원점수 처리
+                // 원점수 처리
                 if(!mathScore) {
                     mathEl[3].innerText = mathEl[4].innerText = mathEl[5].innerText = ''; 
                 } else if (0 <= mathScore && mathScore <= 100 && mathScore != 1 && mathScore != 99) {
@@ -337,6 +359,31 @@ function showInfo() {
                     45 <= exp2Score && exp2Score <= 48 ? 1 :
                     2 <= exp2Score && exp2Score <= 44 || exp2Score == 0 ? 10-parseInt(exp2Score/5+1) : 
                     "invalid"
+            } else {
+                const idx = yearEl.value + monthEl.value + typeEl.id;
+                let subject = exp1El[1].firstChild.value;
+                // 원점수 처리 (탐구 1선택)
+                if(!exp1Score) {
+                    exp1El[3].innerText = exp1El[4].innerText = exp1El[5].innerText = ''; 
+                } else if (0 <= exp1Score && exp1Score <= 50 && exp1Score != 1 && exp1Score != 49) {
+                    exp1El[3].innerText = data[idx][subject][50-exp1Score][0];
+                    exp1El[4].innerText = data[idx][subject][50-exp1Score][1];
+                    exp1El[5].innerText = data[idx][subject][50-exp1Score][2];
+                } else {
+                    exp1El[3].innerText = exp1El[4].innerText = exp1El[5].innerText = 'invaild'; 
+                }
+
+                subject = exp2El[0].firstChild.value;
+                // 원점수 처리 (탐구 2선택)
+                if(!exp2Score) {
+                    exp2El[2].innerText = exp2El[3].innerText = exp2El[4].innerText = ''; 
+                } else if (0 <= exp2Score && exp2Score <= 50 && exp2Score != 1 && exp2Score != 49) {
+                    exp2El[2].innerText = data[idx][subject][50-exp2Score][0];
+                    exp2El[3].innerText = data[idx][subject][50-exp2Score][1];
+                    exp2El[4].innerText = data[idx][subject][50-exp2Score][2];
+                } else {
+                    exp2El[2].innerText = exp2El[3].innerText = exp2El[4].innerText = 'invaild'; 
+                }
             }
 
             // 제2외국어&한문 처리 부분
@@ -362,10 +409,24 @@ function printTable (subNum) {
             const imgEl = document.querySelector("img");
             const subEl = tbodyEl.children[subNum].children;
             let subjectName;
-            if(subNum <= 3 || subNum == 5)
+            if(subNum <= 3) {
                 subjectName = subEl[0].innerText;
-            else   
-                subjectName = subEl[1].innerText;
+            } else {
+                if(typeEl.id == "1st") {
+                    if(subNum == 5)
+                        subjectName = subEl[0].innerText;
+                    else   
+                        subjectName = subEl[1].innerText;
+                } else {
+                    if(subNum == 5)
+                        subjectName = subEl[0].firstElementChild.value;
+                    else   
+                        subjectName = subEl[1].firstElementChild.value;
+                }
+            }
+                
+            
+            
 
             const hrefAttr = document.createAttribute("src");
             hrefAttr.value = "./img/" + yearEl.value + "/" + typeEl.value + "/" + monthEl.value + "/" + subjectName + ".png"
