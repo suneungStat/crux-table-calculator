@@ -1,0 +1,68 @@
+const xlsx = require('xlsx');
+
+const fileName = "2311-2";
+const workbook = xlsx.readFile('./xlsm/'+fileName+'.xlsm');
+const absolute = ["영어", "한국사", "사회", "과학", "통합 사회", "통합 과학"];
+const kormath = ["국어", "수학"];
+const exp = ["생활과 윤리", "윤리와 사상", "한국지리", "세계지리", "동아시아사",
+                "세계사", "경제", "정치와 법", "사회·문화", "물리학Ⅰ", "화학Ⅰ", "생명과학Ⅰ",
+                "지구과학Ⅰ", "물리학Ⅱ", "화학Ⅱ", "생명과학Ⅱ", "지구과학Ⅱ", "성공적인 직업생활",
+                "농업 기초 기술", "공업 일반", "상업 경제", "수산·해운 산업 기초", "인간 발달"];
+
+for(let i=0; i<workbook.SheetNames.length; i++) {
+    const sheetName = workbook.SheetNames[i];
+    if(!(absolute.includes(sheetName) ||
+        kormath.includes(sheetName) ||
+        exp.includes(sheetName))) {
+        continue;
+    }
+
+    const sheet = workbook.Sheets[sheetName];
+    if(kormath.includes(sheetName)) {
+        console.log('"' + sheetName + '": [')
+        for(let row = 7; row <= 107; row++) {
+            if(row == 8 || row == 106) {
+                console.log('[],');
+                continue;
+            }
+                let stdScore;
+                let grade;
+                let percentile;
+            if(sheet["D" + String(row)]) {
+                stdScore = sheet["D" + String(row)].w;
+                grade = sheet["E" + String(row)].w;
+                percentile = sheet["F" + String(row)].w;
+            } else {
+                stdScore = sheet["D" + String(row-1)].w;
+                grade = sheet["E" + String(row-1)].w;
+                percentile = sheet["F" + String(row-1)].w;
+            }
+
+            console.log('["' + stdScore + '", "' + percentile.replace(' ', '') + '", "' + grade + '"],'); 
+        }
+        console.log("],");
+    } else if(exp.includes(sheetName)) {
+        console.log('"' + sheetName + '": [')
+        for(let row = 7; row <= 57; row++) {
+            if(row == 8 || row == 56) {
+                console.log('[],');
+                continue;
+            }
+                let stdScore;
+                let grade;
+                let percentile;
+            if(sheet["D" + String(row)]) {
+                stdScore = sheet["D" + String(row)].w;
+                grade = sheet["E" + String(row)].w;
+                percentile = sheet["F" + String(row)].w;
+            } else {
+                stdScore = sheet["D" + String(row-1)].w;
+                grade = sheet["E" + String(row-1)].w;
+                percentile = sheet["F" + String(row-1)].w;
+            }
+
+            console.log('["' + stdScore + '", "' + percentile.replace(' ', '') + '", "' + grade + '"],'); 
+        }
+        console.log("],");
+    }
+}

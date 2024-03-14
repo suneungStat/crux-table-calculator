@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content=""IE=edge>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <fieldset>
+        <legend>시험 검색</legend>
+        <p id="test_type">
+            시험 유형 : 
+            <input type="radio" id="sat" name="test_type" value="sat" checked>
+            <label for="sat">고3 평가원</label>
+            <input type="radio" id="3rd" name="test_type" value="3rd">
+            <label for="3rd">고3 교육청</label>
+            <input type="radio" id="2nd" name="test_type" value="2nd">
+            <label for="2nd">고2 교육청</label>
+            <input type="radio" id="1st" name="test_type" value="1st">
+            <label for="1st">고1 교육청 </label>
+        </p>
+
+        <p id="test_name">
+            시험명 : 
+            <select name='year' id='year' onchange='yearChange()'></select>학년도 <select name='month', id='month'></select>
+        </p>
+
+        <p id="button">
+            <button type="button" onclick="makeTable()">검색</button>
+        </p>
+    </fieldset>
+
+    <div id="table"></div>
+
+    <img>
+</body>
+
+<script src="../js/search.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/make-table.js"></script>
+</html>
