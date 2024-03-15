@@ -157,6 +157,10 @@ tr:nth-child(6) td:nth-child(2) {
     background-color: #FFFFFF;
 }
 
+input[type="text"]:focus {
+    color: #1515DD;
+}
+
 @media screen and (max-width: 1000px) {
     fieldset {
         width: 90%;
@@ -341,5 +345,9 @@ tr:nth-child(6) td:nth-child(2) {
 
     div.logo img {
         width: 95%;
+    }
+
+    div.fieldset, div.logo {
+        display: none;
     }
 }
