@@ -296,6 +296,10 @@ input[type="text"]:focus {
         width: 500px;
     }
 
+    fieldset, div.logo {
+        margin: 150px;
+    }
+
     fieldset, fieldset button, fieldset select {
         font-size: 0.9rem;
     }
@@ -345,9 +349,5 @@ input[type="text"]:focus {
 
     div.logo img {
         width: 95%;
-    }
-
-    div.fieldset, div.logo {
-        display: none;
     }
 }
