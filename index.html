@@ -5,34 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content=""IE=edge>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>고2 구현</title>
+    <link rel="stylesheet" href="./css/index.css">
 </head>
-    <fieldset>
-        <legend>시험 검색</legend>
-        <p id="test_type">
-            시험 유형 : 
-            <input type="radio" id="sat" name="test_type" value="sat" checked>
-            <label for="sat">고3 평가원</label>
-            <input type="radio" id="3rd" name="test_type" value="3rd">
-            <label for="3rd">고3 교육청</label>
-            <input type="radio" id="2nd" name="test_type" value="2nd">
-            <label for="2nd">고2 교육청</label>
-            <input type="radio" id="1st" name="test_type" value="1st">
-            <label for="1st">고1 교육청 </label>
-        </p>
+    <div class="logo">
+        <a href = "https://orbi.kr/00065137481" target = "blank" >
+            <img src="./img/이딴게메인로고.png">
+        </a>
+    </div>
+    <div class="fieldset">
+        <fieldset>
+            <legend>시험 검색</legend>
+            <p id="test_type">
+                시험 유형 : 
+                <input type="radio" id="sat" name="test_type" value="sat" checked>
+                <label for="sat">고3 평가원</label>
+                <input type="radio" id="3rd" name="test_type" value="3rd">
+                <label for="3rd">고3 교육청</label>
+                <input type="radio" id="2nd" name="test_type" value="2nd">
+                <label for="2nd">고2 교육청</label>
+                <input type="radio" id="1st" name="test_type" value="1st">
+                <label for="1st">고1 교육청 </label>
+            </p>
 
-        <p id="test_name">
-            시험명 : 
-            <select name='year' id='year' onchange='yearChange()'></select>학년도 <select name='month', id='month'></select>
-        </p>
+            <p id="test_name">
+                시험명 : 
+                <select name='year' id='year' onchange='yearChange()'></select>학년도 <select name='month', id='month'></select>
+            </p>
 
-        <p id="button">
-            <button type="button" onclick="makeTable()">검색</button>
-        </p>
-    </fieldset>
+            <p id="button">
+                <button type="button" onclick="makeTable()">검색</button>
+            </p>
+        </fieldset>
+    </div>
 
-    <div id="table"></div>
-
-    <img>
+    <div class="table"></div>
+    <div class="image">
+        <p></p>
+        <img class="formula">
+        <img class="stat">
+    </div>
 </body>
 
 <script src="./js/search.js"></script>

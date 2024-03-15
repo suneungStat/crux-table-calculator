@@ -1,6 +1,6 @@
 const typeEls = document.querySelectorAll("input[name='test_type']");
 const testNameEl = document.querySelector("p#test_name");
-const years = ["2024", "2023", "2022"]; // 2025 추후에 추가
+const years = ["2024"]; // 2025, 2023, 2022 추후에 추가
 const months = ["대학수학능력시험 6월 모의평가", "대학수학능력시험 9월 모의평가", "대학수학능력시험"];
 let yearEl = document.querySelector("#year");
 let monthEl = document.querySelector("#month");
@@ -24,12 +24,12 @@ typeEls.forEach((type) => {
         yearEl = document.querySelector("#year");
         monthEl = document.querySelector("#month");
         if(current.id == "sat") {
-            const years = ["2024", "2023", "2022"]; // 2025 추후에 추가
+            const years = ["2024"]; // 2025, 2023, 2022 추후에 추가
             const months = ["대학수학능력시험 6월 모의평가", "대학수학능력시험 9월 모의평가", "대학수학능력시험"];
             addOpts(years, yearEl);
             addOpts(months, monthEl);
         } else {
-            const years = ["2023", "2022", "2021"]; // 2024 추후에 추가
+            const years = ["2023"]; // 2024, 2022, 2021 추후에 추가
             addOpts(years, yearEl);
             if(current.id == "3rd") {
                 const months = ["3", "4", "7", "10"]; // 2024 추가 이후에는 5로 바꾸기
