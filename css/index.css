@@ -327,6 +327,7 @@ input[type="text"]:focus {
     
     th {
         font-size: 0.5rem;
+        padding: 0;
     }
     
     td {
@@ -338,7 +339,7 @@ input[type="text"]:focus {
     }
 
     caption, div.image > p {
-        font-size: 1.1rem;
+        font-size: 0.8rem;
     }
 
     img.formula[src], img.stat {
