@@ -292,7 +292,7 @@ input[type="text"]:focus {
 }
 
 @media (max-width: 600px) {
-    fieldset, table, img.formula[src], img.stat {
+    fieldset, table, img.formula[src], img.stat, div.fieldset {
         width: auto;
     }
 
@@ -343,5 +343,7 @@ input[type="text"]:focus {
         width: 95%;
     }
 
-    
+    div.logo img {
+        width: 95%;
+    }
 }
