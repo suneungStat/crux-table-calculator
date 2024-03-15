@@ -87,10 +87,16 @@ select {
     text-align: center;
 }
 
+div.table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 table {
     width: 900px;
     text-align: center;
-    margin: 100px auto;
+    margin: 50px auto;
     padding: 10px 0; 
     border: 2px solid #000000;
     border-collapse: collapse;
@@ -251,39 +257,28 @@ input[type="text"]:focus {
         font-size: 1rem;
     }
 
-    table input {
+    table input, table select, table button, th, td {
         font-size: 0.8rem;
+    }
+
+    table input {
         width: 30px;
     }
     
     table select {
         width: 100px;
-        font-size: 0.8rem;
     }
 
     table button {
-        font-size: 0.8rem;
         padding: 3px;
     }
     
-    table select:hover {
+    select:hover {
         font-size: 1rem;
-    }
-    
-    th {
-        font-size: 0.8rem;
-    }
-    
-    td {
-        height: 35px;
-        font-size: 0.8rem;
-        border: 1px solid #000000;
-        border-collapse: collapse;
-        padding: 5px;
     }
 
     caption, div.image > p {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
     }
 
     img.formula[src], img.stat {
@@ -292,60 +287,97 @@ input[type="text"]:focus {
 }
 
 @media (max-width: 600px) {
-    fieldset, table, img.formula[src], img.stat, div.fieldset {
-        width: auto;
-        padding: 10px;
-    }
-
-    table {
-        width: auto;
-    }
-
     fieldset, fieldset button, fieldset select {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    table input, table select, table button, th, td {
+        font-size: 0.6rem;
     }
 
     table input {
-        font-size: 0.5rem;
-        width: 10px;
+        width: 30px;
     }
     
     table select {
         width: 100px;
-        font-size: 0.5rem;
     }
 
     table button {
-        font-size: 0.5rem;
         padding: 3px;
     }
     
     select:hover {
-        font-size: 0.7rem;
-    }
-    
-    th {
-        font-size: 0.5rem;
-        padding: 0;
-    }
-    
-    td {
-        height: 35px;
-        font-size: 0.45rem;
-        border: 1px solid #000000;
-        border-collapse: collapse;
-        padding: 5px;
+        font-size: 0.85rem;
     }
 
     caption, div.image > p {
-        font-size: 0.8rem;
+        font-size: 0.95rem;
     }
 
-    img.formula[src], img.stat {
-        width: 95%;
+    div.logo {
+        width: auto;
     }
 
     div.logo img {
-        width: 280px;
+        width: 350px;
+        height: auto;
+    }
+}
+
+@media (max-width: 350px) {
+    fieldset, fieldset button, fieldset select {
+        font-size: 0.6rem;
+    }
+
+    fieldset {
+        padding: 10px;
+    }
+
+    table {
+        width: 350px;
+        padding: 30px;
+    }
+
+    table input, table select, table button, th, td {
+        font-size: 0.45rem;
+    }
+
+    table input {
+        width: 15px;
+    }
+    
+    table select {
+        width: 70px;
+    }
+
+    table button {
+        padding: 3px;
+    }
+    
+    select:hover {
+        font-size: 0.6rem;
+    }
+
+    caption, div.image > p {
+        font-size: 0.6rem;
+    }
+
+    div.logo {
+        width: auto;
+        margin: 20px;
+    }
+
+    div.logo img {
+        width: 220px;
+        height: auto;
+    }
+
+    div.fieldset {
+        margin: 0
+    }
+
+    div.table {
+        height: auto;
     }
 }
