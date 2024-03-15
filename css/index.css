@@ -288,6 +288,9 @@ tr:nth-child(6) td:nth-child(2) {
 }
 
 @media (max-width: 600px) {
+    fieldset, table, img.formula[src], img.stat {
+        width: 500px;
+    }
 
     fieldset, fieldset button, fieldset select {
         font-size: 0.9rem;
@@ -337,6 +340,6 @@ tr:nth-child(6) td:nth-child(2) {
     }
 
     div.logo img {
-        width: 400px;
+        width: 95%;
     }
 }
