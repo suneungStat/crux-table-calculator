@@ -294,7 +294,6 @@ input[type="text"]:focus {
 @media (max-width: 600px) {
     fieldset, table, img.formula[src], img.stat, div.fieldset {
         width: auto;
-        margin: 0;
         padding: 10px;
     }
 
