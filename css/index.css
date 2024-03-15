@@ -25,8 +25,6 @@ fieldset select {
 }
 
 fieldset select:hover {
-    font-size: 1.35rem;
-    color: #b00000;
     border-bottom: 1px solid #b00000;
 }
 
@@ -121,7 +119,7 @@ table select {
     border: transparent;
 }
 
-table select:hover {
+select:hover {
     font-size: 1.35rem;
     color: #b00000;
 }
@@ -185,7 +183,7 @@ input[type="text"]:focus {
         font-size: 1.05rem;
     }
     
-    table select:hover {
+    select:hover {
         font-size: 1.25rem;
         color: #b00000;
     }
@@ -226,7 +224,7 @@ input[type="text"]:focus {
         font-size: 0.95rem;
     }
     
-    table select:hover {
+    select:hover {
         font-size: 1.15rem;
         color: #b00000;
     }
