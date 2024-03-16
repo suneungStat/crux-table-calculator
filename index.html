@@ -29,7 +29,15 @@
 
             <p id="test_name">
                 시험명 : 
-                <select name='year' id='year' onchange='yearChange()'></select>학년도 <select name='month', id='month'></select>
+                <select name='year' id='year' onchange='yearChange()'>
+                    <option value="2024">2024</option> <!--연도는 추후에 추가할 예정-->
+                </select>학년도 
+                <select name='month', id='month'>
+                    <option value="6">대학수학능력시험 6월 모의평가</option>
+                    <option value="9">대학수학능력시험 9월 모의평가</option>
+                    <option value="11">대학수학능력시험</option>
+                </select>
+                <span></span>
             </p>
 
             <p id="button">
@@ -45,8 +53,7 @@
         <img class="stat">
     </div>
 </body>
-
-<script src="./js/search.js"></script>
-<script src="./js/data.js"></script>
-<script src="./js/make-table.js"></script>
+    <script src="./js/table-form.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/search.js"></script>
 </html>
