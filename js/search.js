@@ -44,7 +44,7 @@ typeEls.forEach((type) => {
             months = ["6", "9", "11"];
             TNSE.innerText = ""
         } else {
-            years = ["2023"]; // years는 1st~3rd가 공통됨 (2024, 2022, 2021 추후에 추가)
+            years = ["2023", "2022"]; // years는 1st~3rd가 공통됨 (2024, 2022, 2021 추후에 추가)
             if(type == "3rd") {
                 months = ["3", "4", "7", "10"]; // 2024 추가 이후에는 5로 바꾸기
                 TNSE.innerText = "월 고3 전국연합학력평가";
@@ -67,7 +67,7 @@ function yearChange() {
     yearEl = document.querySelector("#year");
     monthEl = document.querySelector("#month");
 
-    if(type.value == "3rd") {
+    if(type == "3rd") {
         const change = monthEl.children[1];
         if(parseInt(yearEl.value) >= 2024) {
             change.value = "5";
@@ -88,8 +88,17 @@ function yearChange() {
     }
 }
 
+// 성적표 생성 함수
 function makeTable() {
+    // 기존에 통계자료 이미지를 띄웠다면 삭제
+    document.querySelector("div.image").firstElementChild.innerText = "";
+    document.querySelector("img.formula").removeAttribute("src"); 
+    document.querySelector("img.formula").removeAttribute("alt");
+    document.querySelector("img.stat").removeAttribute("src");
+    document.querySelector("img.stat").removeAttribute("alt");
+
     const divEl = document.querySelector("div.table");
+    // year, month, type 확정
     year = yearEl.value;
     month = monthEl.value;
     type = typeEl.value;
@@ -130,7 +139,7 @@ function makeTable() {
 
     // 탐구 처리 부분
     if(type == "1st") {
-        // 1학년인가? (1학년이면 탐구 선택과목 자동 지정)
+        // 1학년인가? (1학년이면 탐구 선택과목 자동 지정, 표준점수와 등급은 지원 안 됨)
         if(month == "3") {
             tbodyEl.children[4].children[1].innerText = "사회"
             tbodyEl.children[5].children[0].innerText = "과학"
@@ -138,6 +147,10 @@ function makeTable() {
             tbodyEl.children[4].children[1].innerText = "통합 사회"
             tbodyEl.children[5].children[0].innerText = "통합 과학"
         }
+        tbodyEl.children[4].children[3].innerText = 
+        tbodyEl.children[4].children[4].innerText = 
+        tbodyEl.children[5].children[2].innerText = 
+        tbodyEl.children[5].children[3].innerText = "-";
     } else {
         let expList;
         // 2학년 3~9월, 3학년 3월 (기본)
@@ -166,18 +179,18 @@ function makeTable() {
                 "지구과학Ⅰ", "물리학Ⅱ", "화학Ⅱ", "생명과학Ⅱ", "지구과학Ⅱ", "성공적인 직업생활",
                 "농업 기초 기술", "공업 일반", "상업 경제", "수산∙해운 산업 기초", "인간 발달"];
 
-        const expSelectEl1 = document.createElement("select");
-        const expSelectEl2 = document.createElement("select");
+        const exp1SelectEl = document.createElement("select");
+        const exp2SelectEl = document.createElement("select");
         const onclickAttr1 = document.createAttribute("onclick");
         const onclickAttr2 = document.createAttribute("onclick");
         onclickAttr1.value = "showInfo()";
         onclickAttr2.value = "showInfo()";
-        expSelectEl1.setAttributeNode(onclickAttr1);
-        expSelectEl2.setAttributeNode(onclickAttr2);
-        changeOpts(expSelectEl1, expList);
-        changeOpts(expSelectEl2, expList);
-        tbodyEl.children[4].children[1].appendChild(expSelectEl1);
-        tbodyEl.children[5].children[0].appendChild(expSelectEl2);
+        exp1SelectEl.setAttributeNode(onclickAttr1);
+        exp2SelectEl.setAttributeNode(onclickAttr2);
+        changeOpts(exp1SelectEl, expList);
+        changeOpts(exp2SelectEl, expList);
+        tbodyEl.children[4].children[1].appendChild(exp1SelectEl);
+        tbodyEl.children[5].children[0].appendChild(exp2SelectEl);
     }
 
     // 국어&수학 선택과목 선택기
@@ -191,8 +204,8 @@ function makeTable() {
         tbodyEl.children[0].children[1].appendChild(korSelectEl);
         tbodyEl.children[1].children[1].appendChild(mathSelectEl);
         const onclickAttr1 = document.createAttribute("onclick");
-        onclickAttr1.value = "showInfo()";
         const onclickAttr2 = document.createAttribute("onclick");
+        onclickAttr1.value = "showInfo()";        
         onclickAttr2.value = "showInfo()";
         korSelectEl.setAttributeNode(onclickAttr1);
         mathSelectEl.setAttributeNode(onclickAttr2);
@@ -202,17 +215,16 @@ function makeTable() {
     const titleEl = document.querySelector("caption");
     if(type == "sat")  {
         if(monthEl.value == "11")
-            titleEl.innerText = year + "학년도 대학수학능력시험 " + month + " 성적 계산기";
+            titleEl.innerText = `${year} + 학년도 대학수학능력시험 성적 계산기`;
         else
-            titleEl.innerText = year + "학년도 대학수학능력시험 " + month + "월 모의평가 성적 계산기"
+            titleEl.innerText = `${year}학년도 대학수학능력시험 ${month}월 모의평가 성적 계산기`
     } else {
-        titleEl.innerText = year + "학년도 " + month + "월 고" + type.substring(0,1) + " 전국연합학력평가 성적 계산기"
+        titleEl.innerText = `${year}학년도 ${month}월 고${type.substring(0,1)} 전국연합학력평가 성적 계산기`
     }
 }
 
 function showInfo() {
     let key = year + month + type; // 딕셔너리형 데이터의 key
-    console.log(key);
 
     // 국어&수학 처리 부분. 1~2학년은 if문에서, 3학년은 else문에서 처리
     if(type == "1st" || type == "2nd") {
