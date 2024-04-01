@@ -34,7 +34,7 @@ function changeOpts(parent, newChild, SaM = false) {
 typeEls.forEach((type) => { 
     type.addEventListener("change", (e) => {
         typeEl = e.currentTarget;
-        type = typeEl.value;
+        const type = typeEl.value;  // 전역 type은 버튼을 눌렀을 때만 변경되어야 하므로 지역 변수를 따로 선언
         const TNSE = document.querySelector("p#test_name > span");  // Test Name Span Element
         let years, months;
 
@@ -90,7 +90,7 @@ function yearChange() {
 
 // 성적표 생성 함수
 function makeTable() {
-    // 기존에 통계자료 이미지를 띄웠다면 삭제
+    // 기존에 띄운 통계자료 이미지 제거
     document.querySelector("div.image").firstElementChild.innerText = "";
     document.querySelector("img.formula").removeAttribute("src"); 
     document.querySelector("img.formula").removeAttribute("alt");
@@ -129,28 +129,24 @@ function makeTable() {
                 "일본어Ⅰ", "러시아어Ⅰ", "아랍어Ⅰ", "베트남어Ⅰ", "한문Ⅰ"];
         }
                 
-        const sflSelectEl = document.createElement("select");
-        const onclickAttr = document.createAttribute("onclick");
-        onclickAttr.value = "showInfo()";
-        sflSelectEl.setAttributeNode(onclickAttr);
+        const sflSelectEl = tbodyEl.children[6].children[1].firstChild;
         changeOpts(sflSelectEl, sflList);
-        tbodyEl.children[6].children[1].appendChild(sflSelectEl);
     }
 
     // 탐구 처리 부분
     if(type == "1st") {
         // 1학년인가? (1학년이면 탐구 선택과목 자동 지정, 표준점수와 등급은 지원 안 됨)
         if(month == "3") {
-            tbodyEl.children[4].children[1].innerText = "사회"
-            tbodyEl.children[5].children[0].innerText = "과학"
+            tbodyEl.children[4].children[1].innerText = "사회";
+            tbodyEl.children[5].children[0].innerText = "과학";
         } else {
-            tbodyEl.children[4].children[1].innerText = "통합 사회"
-            tbodyEl.children[5].children[0].innerText = "통합 과학"
+            tbodyEl.children[4].children[1].innerText = "통합 사회";
+            tbodyEl.children[5].children[0].innerText = "통합 과학";
         }
         tbodyEl.children[4].children[3].innerText = 
-        tbodyEl.children[4].children[4].innerText = 
-        tbodyEl.children[5].children[2].innerText = 
-        tbodyEl.children[5].children[3].innerText = "-";
+            tbodyEl.children[4].children[4].innerText = 
+            tbodyEl.children[5].children[2].innerText = 
+            tbodyEl.children[5].children[3].innerText = "-";
     } else {
         let expList;
         // 2학년 3~9월, 3학년 3월 (기본)
@@ -215,11 +211,23 @@ function makeTable() {
     const titleEl = document.querySelector("caption");
     if(type == "sat")  {
         if(monthEl.value == "11")
-            titleEl.innerText = `${year} + 학년도 대학수학능력시험 성적 계산기`;
+            titleEl.innerText = `${year}학년도 대학수학능력시험 성적 계산기`;
         else
             titleEl.innerText = `${year}학년도 대학수학능력시험 ${month}월 모의평가 성적 계산기`
     } else {
         titleEl.innerText = `${year}학년도 ${month}월 고${type.substring(0,1)} 전국연합학력평가 성적 계산기`
+    }
+
+    // 너비 조정
+    if(type == "2nd" && month.length == 2) {
+        const thEl = document.querySelectorAll("th");
+        thEl[0].getAttributeNode("width").value = "20%"
+        thEl[1].getAttributeNode("width").value = "25%"
+        thEl[2].getAttributeNode("width").value = "15%"
+        thEl[3].getAttributeNode("width").value = "10%"
+        thEl[4].getAttributeNode("width").value = "10%"
+        thEl[5].getAttributeNode("width").value = "10%"
+        thEl[6].getAttributeNode("width").value = "10%"
     }
 }
 
@@ -228,43 +236,60 @@ function showInfo() {
 
     // 국어&수학 처리 부분. 1~2학년은 if문에서, 3학년은 else문에서 처리
     if(type == "1st" || type == "2nd") {
+        // 국어 처리 부분 (고1, 고2)
         const korEl = tbodyEl.children[0].children;
-        const korScore = korEl[2].firstChild.value; // 국어 원점수                
-        // 원점수 처리
+        const korScore = korEl[2].firstChild.value; // 국어 원점수  
+        const KSCN = korEl[2].firstChild.getAttributeNode("style"); // 국어 원점수 스타일 노드
+        // 국어 표준점수, 백분위, 등급 출력 부분 (고1, 고2)
         if(!korScore) {
             korEl[3].innerText = korEl[4].innerText = korEl[5].innerText = ''; 
-        } else if (0 <= korScore && korScore <= 100 && korScore != 1 && korScore != 99) {
+        } else if (0 <= korScore && korScore <= 100 
+            && korScore != 1 && korScore != 99) {
             korEl[3].innerText = data[key]["국어"][100-korScore][0];
             korEl[4].innerText = data[key]["국어"][100-korScore][1];
             korEl[5].innerText = data[key]["국어"][100-korScore][2];
+            KSCN.value = "color: #3030EE";
         } else {
             korEl[3].innerText = korEl[4].innerText = korEl[5].innerText = 'invalid'; 
+            KSCN.value = "color: #EE3030";
         }
 
+        // 수학 처리 부분 (고1, 고2)
         const mathEl = tbodyEl.children[1].children;
         const mathScore = mathEl[2].firstChild.value; // 수학 원점수
-        // 원점수 처리
+        const mathScoreColor = mathEl[2].firstChild.getAttributeNode("style"); // 스타일 노드
+        // 수학 표준점수, 백분위, 등급 출력 부분 (고1, 고2)
         if(!mathScore) {
             mathEl[3].innerText = mathEl[4].innerText = mathEl[5].innerText = ''; 
         } else if (0 <= mathScore && mathScore <= 100 && mathScore != 1 && mathScore != 99) {
             mathEl[3].innerText = data[key]["수학"][100-mathScore][0];
             mathEl[4].innerText = data[key]["수학"][100-mathScore][1];
             mathEl[5].innerText = data[key]["수학"][100-mathScore][2];
+            mathScoreColor.value = "color: #3030EE";
         } else {
             mathEl[3].innerText = mathEl[4].innerText = mathEl[5].innerText = 'invalid'; 
+            mathScoreColor.value = "color: #EE3030";
         }
+        mathEl[2].firstChild.setAttributeNode(mathScoreColor);
     } else {
+        // 국어 처리 부분 (고3, 수능)
         const korEl = tbodyEl.children[0].children;
         const korChoice = korEl[1].firstChild.value; // 국어 선택과목
         const korScore1 = korEl[2].firstChild.value; // 국어 공통과목 원점수
         const korScore2 = korEl[3].firstChild.value; // 국어 선택과목 원점수
+        const KSSN1 = korEl[2].firstChild.getAttributeNode("style"); // 국어 공통과목 원점수 스타일 노드 (Korean Score Style Node 1)
+        const KSSN2 = korEl[3].firstChild.getAttributeNode("style"); // 국어 선택과목 원점수 스타일 노드 (Korean Score Style Node 2)
+        const korValidity1 = (0 <= korScore1 && korScore1 <= 76 && korScore1 != 1 && korScore1 != 75); // 국어 공통과목 원점수 유효성
+        const korValidity2 = (0 <= korScore2 && korScore2 <= 24 && korScore2 != 1 && korScore2 != 23); // 국어 선택과목 원점수 유효성
         const korMemory = data[key]["국어"][0][korChoice] // 국어 표준점수 산출식 저장된 곳
 
-        // 국어 원점수 처리
+        KSSN1.value = korValidity1 ? "color: #3030EE" : "color: #EE3030"; // 공통과목 원점수 유효하면 파란색, 아니면 빨간색
+        KSSN2.value = korValidity2 ? "color: #3030EE" : "color: #EE3030"; // 선택과목 원점수 유효하면 파란색, 아니면 빨간색
+
+        // 국어 표준점수, 백분위, 등급 출력 부분 (고3, 수능)
         if(!korScore1 || !korScore2) {
             korEl[4].innerText = korEl[5].innerText = korEl[6].innerText = ''; 
-        } else if (0 <= korScore1 && korScore1 <= 76 && korScore1 != 1 && korScore1 != 75
-                && 0 <= korScore2 && korScore2 <= 24 && korScore2 != 1 && korScore2 != 23) {
+        } else if (korValidity1 && korValidity2) {
             const korStandard = parseInt(korMemory[0] * parseInt(korScore1) 
                 + korMemory[1] * parseInt(korScore2) + korMemory[2] + 0.5);
             korEl[4].innerText = korStandard;
@@ -277,17 +302,24 @@ function showInfo() {
             korEl[4].innerText = korEl[5].innerText = korEl[6].innerText = 'invalid'; 
         }
 
+        // 수학 처리 부분 (고3, 수능)
         const mathEl = tbodyEl.children[1].children;
         const mathChoice = mathEl[1].firstChild.value; // 수학 선택과목
         const mathScore1 = mathEl[2].firstChild.value; // 수학 공통과목 원점수
         const mathScore2 = mathEl[3].firstChild.value; // 수학 선택과목 원점수
+        const MSSN1 = mathEl[2].firstChild.getAttributeNode("style"); // 수학 공통과목 원점수 스타일 노드 (Math Score Style Node 1)
+        const MSSN2 = mathEl[3].firstChild.getAttributeNode("style"); // 수학 선택과목 원점수 스타일 노드 (Math Score Style Node 2)
+        const MathValidity1 = (0 <= mathScore1 && mathScore1 <= 74 && mathScore1 != 1 && mathScore1 != 73);
+        const MathValidity2 = (0 <= mathScore2 && mathScore2 <= 26 && mathScore2 != 1 && mathScore2 != 25);
         const mathMemory = data[key]["수학"][0][mathChoice] // 수학 표준점수 산출식 저장된 곳
 
-        // 수학 원점수 처리
+        MSSN1.value = MathValidity1 ? "color: #3030EE" : "color: #EE3030"; // 공통과목 원점수 유효하면 파란색, 아니면 빨간색
+        MSSN2.value = MathValidity2 ? "color: #3030EE" : "color: #EE3030"; // 선택과목 원점수 유효하면 파란색, 아니면 빨간색
+
+        // 수학 표준점수, 백분위, 등급 출력 부분 (고3, 수능)
         if(!mathScore1 || !mathScore2) {
             mathEl[4].innerText = mathEl[5].innerText = mathEl[6].innerText = ''; 
-        } else if (0 <= mathScore1 && mathScore1 <= 74 && mathScore1 != 1 && mathScore1 != 73
-                && 0 <= mathScore2 && mathScore2 <= 26 && mathScore2 != 1 && mathScore2 != 25) {
+        } else if (MathValidity1 && MathValidity2) {
             const mathStandard = parseInt(mathMemory[0] * parseInt(mathScore1) 
                 + mathMemory[1] * parseInt(mathScore2) + mathMemory[2] + 0.5);
                 mathEl[4].innerText = mathStandard;
@@ -301,31 +333,37 @@ function showInfo() {
         }
     }
 
-    // 영어&한국사 처리 부분
-    let engEl;
-    engEl = tbodyEl.children[2].children;
+    // 영어 처리 부분
+    const engEl = tbodyEl.children[2].children;
     const engScore = engEl[2].firstChild.value; // 영어 원점수
+    const ESSN = engEl[2].firstChild.getAttributeNode("style");
     engEl[5].innerText = 
         engScore == "" ? "" :
         engScore == 100 ? 1 : 
         0 <= engScore && engScore <= 9 && engScore != 1 ? 9 :
         2 <= engScore && engScore <= 98 ? 10-parseInt(engScore/10) : 
-        "invalid"
+        "invalid";
+    ESSN.value = engEl[5].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
 
+    // 한국사 처리 부분
     const histEl = tbodyEl.children[3].children;
     const histScore = histEl[2].firstChild.value; // 한국사 원점수
+    const HSSN = histEl[2].firstChild.getAttributeNode("style");
     histEl[5].innerText = 
         histScore == "" ? "" :
         histScore == 50 ? 1 : 
         45 <= histScore && histScore <= 48 ? 1 :
         2 <= histScore && histScore <= 44 || histScore == 0 ? 10-parseInt(histScore/5+1) : 
-        "invalid"
+        "invalid";
+    HSSN.value = histEl[5].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
 
     // 탐구 처리 부분
     const exp1El = tbodyEl.children[4].children;
     const exp2El = tbodyEl.children[5].children;
     const exp1Score = exp1El[2].firstChild.value; // 탐구1 원점수
     const exp2Score = exp2El[1].firstChild.value; // 탐구2 원점수
+    const Ex1SSN = exp1El[2].firstChild.getAttributeNode("style");
+    const Ex2SSN = exp2El[1].firstChild.getAttributeNode("style");
     if(type == "1st") {
         // 1학년 탐구는 절대평가
         exp1El[5].innerText = 
@@ -334,6 +372,7 @@ function showInfo() {
             45 <= exp1Score && exp1Score <= 48 ? 1 :
             2 <= exp1Score && exp1Score <= 44 || exp1Score == 0 ? 10-parseInt(exp1Score/5+1) : 
             "invalid"
+        Ex1SSN.value = exp1El[5].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
         
         exp2El[4].innerText = 
             exp2Score == "" ? "" :
@@ -341,6 +380,7 @@ function showInfo() {
             45 <= exp2Score && exp2Score <= 48 ? 1 :
             2 <= exp2Score && exp2Score <= 44 || exp2Score == 0 ? 10-parseInt(exp2Score/5+1) : 
             "invalid"
+        Ex2SSN.value = exp2El[4].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
     } else {
         let subject = exp1El[1].firstChild.value;
         // 원점수 처리 (탐구 1선택)
@@ -353,6 +393,7 @@ function showInfo() {
         } else {
             exp1El[3].innerText = exp1El[4].innerText = exp1El[5].innerText = 'invalid'; 
         }
+        Ex1SSN.value = exp1El[5].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
 
         subject = exp2El[0].firstChild.value;
         // 원점수 처리 (탐구 2선택)
@@ -365,18 +406,21 @@ function showInfo() {
         } else {
             exp2El[2].innerText = exp2El[3].innerText = exp2El[4].innerText = 'invalid'; 
         }
+        Ex2SSN.value = exp2El[4].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
     }
 
     // 제2외국어&한문 처리 부분
     if(tbodyEl.children.length == 7) {
         const sflEl = tbodyEl.children[6].children;
         const sflScore = sflEl[2].firstChild.value; // 제2외국어 원점수
+        const SSSN = sflEl[2].firstChild.getAttributeNode("style");
         sflEl[5].innerText = 
             sflScore == "" ? "" :
             sflScore == 50 ? 1 : 
             0 <= sflScore && sflScore <= 4 ? 9 :
             5 <= sflScore && sflScore <= 49 ? 10-parseInt(sflScore/5) : 
             "invalid"
+        SSSN.value = sflEl[5].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
     }            
 }
 
@@ -416,7 +460,6 @@ function printTable (subNum) {
         const srcAttr = document.createAttribute("src");
         srcAttr.value = "./img/" + year + "/" + type + "/" + month + "/공식.png";
         imgEl[0].setAttributeNode(srcAttr);
-        console.log(srcAttr.value);
     } else {
         imgEl[0].removeAttribute("src");
     }

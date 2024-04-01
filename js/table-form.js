@@ -4,20 +4,20 @@ const tableType1 =
     <caption></caption>\
     <thead>\
         <tr>\
-            <th>과목</th>\
-            <th>선택과목</th>\
-            <th>원점수</th>\
-            <th>표준점수</th>\
-            <th>백분위</th>\
-            <th>등급</th>\
-            <th>통계자료</th>\
+            <th width = "15%">과목</th>\
+            <th width = "20%">선택과목</th>\
+            <th width = "20%">원점수</th>\
+            <th width = "10%">표준점수</th>\
+            <th width = "10%">백분위</th>\
+            <th width = "10%">등급</th>\
+            <th width = "15%">통계자료</th>\
         </tr>\
     </thead>\
     <tbody>\
         <tr>\
             <td>국어</td>\
             <td>-</td>\
-            <td><input type="text" name="score" maxlength="3" placeholder="입력란" onchange="showInfo()"></input></td>\
+            <td><input type="text" name="score" maxlength="3" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td></td>\
             <td></td>\
             <td></td>\
@@ -26,7 +26,7 @@ const tableType1 =
         <tr>\
             <td>수학</td>\
             <td>-</td>\
-            <td><input type="text" name="score" maxlength="3" placeholder="입력란" onchange="showInfo()"></input></td>\
+            <td><input type="text" name="score" maxlength="3" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td></td>\
             <td></td>\
             <td></td>\
@@ -35,7 +35,7 @@ const tableType1 =
         <tr>\
             <td>영어</td>\
             <td>-</td>\
-            <td><input type="text" name="score" maxlength="3" placeholder="입력란" onchange="showInfo()"></input></td>\
+            <td><input type="text" name="score" maxlength="3" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td>-</td>\
             <td>-</td>\
             <td></td>\
@@ -44,7 +44,7 @@ const tableType1 =
         <tr>\
             <td>한국사</td>\
             <td>-</td>\
-            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></input></td>\
+            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td>-</td>\
             <td>-</td>\
             <td></td>\
@@ -53,7 +53,7 @@ const tableType1 =
         <tr>\
             <td rowspan="2">탐구</td>\
             <td></td>\
-            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></input></td>\
+            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td></td>\
             <td></td>\
             <td></td>\
@@ -61,7 +61,7 @@ const tableType1 =
         </tr>\
         <tr>\
             <td></td>\
-            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></input></td>\
+            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td></td>\
             <td></td>\
             <td></td>\
@@ -69,8 +69,8 @@ const tableType1 =
         </tr>\
         <tr id="sfl">\
             <td>제2외국어/한문</td>\
-            <td class="sfl choice"></td>\
-            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></input></td>\
+            <td><select onchange=showInfo()></select></td>\
+            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td>-</td>\
             <td>-</td>\
             <td></td>\
@@ -101,8 +101,8 @@ const tableType2 =
         <tr>\
             <td>국어</td>\
             <td></td>\
-            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></input></td>\
-            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></input></td>\
+            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
+            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td></td>\
             <td></td>\
             <td></td>\
@@ -111,8 +111,8 @@ const tableType2 =
         <tr>\
             <td>수학</td>\
             <td></td>\
-            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></input></td>\
-            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></input></td>\
+            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
+            <td><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td></td>\
             <td></td>\
             <td></td>\
@@ -121,7 +121,7 @@ const tableType2 =
         <tr>\
             <td>영어</td>\
             <td>-</td>\
-            <td colspan="2"><input type="text" name="score" maxlength="3" placeholder="입력란" onchange="showInfo()"></td>\
+            <td colspan="2"><input type="text" name="score" maxlength="3" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td>-</td>\
             <td>-</td>\
             <td></td>\
@@ -130,7 +130,7 @@ const tableType2 =
         <tr>\
             <td>한국사</td>\
             <td>-</td>\
-            <td colspan="2"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></td>\
+            <td colspan="2"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td>-</td>\
             <td>-</td>\
             <td></td>\
@@ -139,7 +139,7 @@ const tableType2 =
         <tr>\
             <td rowspan="2">탐구</td>\
             <td></td>\
-            <td colspan="2"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></td>\
+            <td colspan="2"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td></td>\
             <td></td>\
             <td></td>\
@@ -147,7 +147,7 @@ const tableType2 =
         </tr>\
         <tr>\
             <td></td>\
-            <td colspan="2"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></td>\
+            <td colspan="2"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td></td>\
             <td></td>\
             <td></td>\
@@ -155,8 +155,8 @@ const tableType2 =
         </tr>\
         <tr id="sfl">\
             <td>제2외국어/한문</td>\
-            <td></td>\
-            <td colspan="2"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()"></td>\
+            <td><select onchange=showInfo()></select></td>\
+            <td colspan="2"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td>-</td>\
             <td>-</td>\
             <td></td>\

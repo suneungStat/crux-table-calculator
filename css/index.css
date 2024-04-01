@@ -1,31 +1,57 @@
-div.logo {
+div {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 50px;
+    width: 100%;
+    height: auto;
+    margin: 50px 0;
 }
 
-div.logo img {
-    width: 500px;
-    height: auto;
+div.logo a  {
+    display: flex;
+    justify-content: center;
+    width: 100%
+}
+
+div.logo a img {
+    width: 540px;
 }
 
 fieldset {
-    font-size: 1.15rem;
     width: 900px;
     border-radius : 10px; /* 모서리를 둥글게 */
     border: 1px solid #000000;
     padding: 20px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+fieldset legend {
+    font-size : 28px;
+}
+
+fieldset p {
+    font-size : 20px;
+    margin-bottom: 50px;
 }
 
 fieldset select {
-    font-size: 1.15rem;
+    font-size: 20px;
+    text-align: center;
     border: transparent;
     border-bottom: 1px solid #000000;
 }
 
 fieldset select:hover {
+    font-size: 22px;
+    color: #b00000;
     border-bottom: 1px solid #b00000;
+}
+
+fieldset select:focus {
+    font-size: 20px;
+    color: #000000;
+    border-bottom: 1px solid #000000;
 }
 
 fieldset p#button {
@@ -33,6 +59,24 @@ fieldset p#button {
     flex-direction: row;
     justify-content: center;
     margin-top: 30px;
+    margin-bottom: 0;
+}
+
+button { 
+    background-color: transparent;
+    border-radius: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
+}
+
+button:hover {
+    background-color: #b5ffff;
+}
+
+button:active {
+    background-color: #66aaff;
 }
 
 fieldset input:checked + label {
@@ -40,88 +84,57 @@ fieldset input:checked + label {
     border-bottom: 1px solid #b00000;
 }
 
-fieldset button { 
-    background-color: transparent;
-    border-radius: 15px;
-    font-size: 1.15rem;
-    font-weight: bold;
-    padding: 5px;
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
-}
-
-div.fieldset {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 50px;
-    width: 100%;
-    height: auto;
-}
-
 caption, div.image > p {
-    font-size: 1.7rem;
+    font-size: 28px;
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
 }
 
-legend {
-    font-size : 1.7rem;
-}
-
-div.image {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 img.formula[src], img.stat {
-    width: 700px;
+    width: 900px;
     height: auto;
     margin-bottom: 50px;
-}
-
-select {
-    text-align: center;
-}
-
-div.table {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    box-sizing: border-box;
 }
 
 table {
     width: 900px;
     text-align: center;
-    margin: 50px auto;
+    margin: 50px 0;
     padding: 10px 0; 
     border: 2px solid #000000;
     border-collapse: collapse;
+    box-sizing: border-box;
 }
 
 table input {
     width: 70px;
     height: 95%;
     text-align: center;
-    font-size: 1.15rem;
+    font-size: 18px;
     background-color: transparent;
     border: transparent;
 }
 
 table select {
-    width: 150px;
+    width: 95%;
     height: 95%;
     text-align: center;
-    font-size: 1.15rem;
+    font-size: 18px;
     font-weight: bold;
     background-color: transparent;
     border: transparent;
 }
 
-select:hover {
-    font-size: 1.35rem;
+table select:hover {
+    font-size: 20px;
     color: #b00000;
+}
+
+table select:focus {
+    font-size: 18px;
+    color: #000000;
 }
 
 table button {
@@ -146,7 +159,7 @@ th[colspan = "2"] {
 
 td {
     height: 35px;
-    font-size: 1.15rem;
+    font-size: 18px;
     border: 1px solid #000000;
     border-collapse: collapse;
     padding: 5px;
@@ -159,10 +172,6 @@ tr td:first-child, tr td:nth-child(2) {
 
 tr:nth-child(6) td:nth-child(2) {
     background-color: #FFFFFF;
-}
-
-input[type="text"]:focus {
-    color: #1515DD;
 }
 
 @media screen and (max-width: 1000px) {
@@ -377,5 +386,9 @@ input[type="text"]:focus {
 
     div.table {
         height: auto;
+    }
+
+    td { 
+        padding: 0;
     }
 }
