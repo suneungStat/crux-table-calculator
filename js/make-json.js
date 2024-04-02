@@ -1,12 +1,12 @@
 const xlsx = require('xlsx');
 
-const fileName = "2306";
-const workbook = xlsx.readFile('./xlsm/'+fileName+'.xlsm');
+const fileName = "2311-3";
+const workbook = xlsx.readFile('./xlsm/'+fileName+'.xlsx');
 const kormath = ["국어", "수학"];
 const exp = ["생활과 윤리", "윤리와 사상", "한국지리", "세계지리", "동아시아사",
                 "세계사", "경제", "정치와 법", "사회∙문화", "물리학Ⅰ", "화학Ⅰ", "생명과학Ⅰ",
                 "지구과학Ⅰ", "물리학Ⅱ", "화학Ⅱ", "생명과학Ⅱ", "지구과학Ⅱ", "성공적인 직업생활",
-                "농업 기초 기술", "공업 일반", "상업 경제", "수산∙해운 산업 기초", "인간 발달"];
+                "공업 일반", "상업 경제",  "인간 발달"];
 const kormath3 = ["국어 백분위 표", "수학 백분위 표"];
 
 for(let i=0; i<workbook.SheetNames.length; i++) {

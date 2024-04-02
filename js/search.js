@@ -37,7 +37,7 @@ typeEls.forEach((type) => {
         let years, months;
         // years와 months의 옵션 지정 ({수능, {3학년, {1,2학년}}}의 논리로 구성되어 있음)
         if(type == "sat") {
-            years = ["2025", "2024"]; // 2025, 2023, 2022 추후에 추가
+            years = ["2025", "2024", "2023"]; // 2025, 2023, 2022 추후에 추가
             months = ["6", "9", "11"];
             TNSE.innerText = ""
         } else {

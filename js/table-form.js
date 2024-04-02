@@ -76,7 +76,9 @@ const tableType1 =
             <td><button type="button" onclick="printTable(6)">보기</button></td>\
         </tr>\
     </tbody>\
-</table>';
+</table>\
+<p>* 유효하지 않은 원점수를 입력하면 결과가 "X"로 나옵니다.</p>\
+';
 
 const tableType2 = 
 '<table>\
@@ -162,7 +164,11 @@ const tableType2 =
             <td><button type="button" onclick="printTable(6)">보기</button></td>\
         </tr>\
     </tbody>\
-</table>';
+</table>\
+<p>* 국어 공통과목 원점수 만점: 76점, 선택과목 원점수 만점: 24점</p>\
+<p>** 수학 공통과목 원점수 만점: 74점, 선택과목 원점수 만점: 26점</p>\
+<p>*** 유효하지 않은 원점수를 입력하면 결과가 "X"로 나옵니다.</p>\
+';
 
 /*
 const tableType3 = 
