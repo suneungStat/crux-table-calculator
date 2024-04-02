@@ -66,7 +66,7 @@ const tableType1 =
             <td class="ex2d"></td>\
             <td><button type="button" onclick="printTable(5)">보기</button></td>\
         </tr>\
-        <tr class="sfl">\
+        <tr id="sfl">\
             <td>제2외국어/한문</td>\
             <td class="ss"><select onchange=showInfo()></select></td>\
             <td class="sw"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
@@ -152,7 +152,7 @@ const tableType2 =
             <td class="ex2d"></td>\
             <td><button type="button" onclick="printTable(5)">보기</button></td>\
         </tr>\
-        <tr class="sfl">\
+        <tr id="sfl">\
             <td>제2외국어/한문</td>\
             <td class="ss"><select onchange=showInfo()></select></td>\
             <td colspan="2" class="sw"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
@@ -164,6 +164,7 @@ const tableType2 =
     </tbody>\
 </table>';
 
+/*
 const tableType3 = 
 '<table id="input">\
     <caption></caption>\
@@ -211,7 +212,7 @@ const tableType3 =
             <td class="ex2w"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td><button type="button" onclick="printTable(5)">보기</button></td>\
         </tr>\
-        <tr class="sfl">\
+        <tr id="sfl">\
             <td>제2외국어/한문</td>\
             <td class="ss"><select onchange=showInfo()></select></td>\
             <td class="sw"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
@@ -266,7 +267,7 @@ const tableType3 =
             <td class="ex2b"></td>\
             <td class="ex2d"></td>\
         </tr>\
-        <tr class="sfl">\
+        <tr id="sfl">\
             <td>제2외국어/한문</td>\
             <td class>-</td>\
             <td class>-</td>\
@@ -328,7 +329,7 @@ const tableType4 =
             <td colspan="2" class="ex2w"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
             <td><button type="button" onclick="printTable(5)">보기</button></td>\
         </tr>\
-        <tr class="sfl">\
+        <tr id="sfl">\
             <td>제2외국어/한문</td>\
             <td class="ss"><select onchange=showInfo()></select></td>\
             <td colspan="2" class="sw"><input type="text" name="score" maxlength="2" placeholder="입력란" onchange="showInfo()" style=""></input></td>\
@@ -383,7 +384,7 @@ const tableType4 =
             <td class="ex2b"></td>\
             <td class="ex2d"></td>\
         </tr>\
-        <tr class="sfl">\
+        <tr id="sfl">\
             <td>제2외국어/한문</td>\
             <td class>-</td>\
             <td class>-</td>\
@@ -391,3 +392,4 @@ const tableType4 =
         </tr>\
     </tbody>\
 </table>';
+*/
