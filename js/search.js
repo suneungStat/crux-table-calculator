@@ -62,6 +62,7 @@ typeEls.forEach((type) => {
 function yearChange() {
     yearEl = document.querySelector("#year");
     monthEl = document.querySelector("#month");
+    const type = typeEl.value;
     if(type == "3rd") {
         const change = monthEl.children[1];
         if(parseInt(yearEl.value) >= 2024) {
