@@ -1,6 +1,6 @@
 const xlsx = require('xlsx');
 
-const fileName = "2211-2";
+const fileName = "2306";
 const workbook = xlsx.readFile('./xlsm/'+fileName+'.xlsm');
 const kormath = ["국어", "수학"];
 const exp = ["생활과 윤리", "윤리와 사상", "한국지리", "세계지리", "동아시아사",

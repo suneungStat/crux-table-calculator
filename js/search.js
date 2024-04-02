@@ -37,13 +37,13 @@ typeEls.forEach((type) => {
         let years, months;
         // years와 months의 옵션 지정 ({수능, {3학년, {1,2학년}}}의 논리로 구성되어 있음)
         if(type == "sat") {
-            years = ["2024"]; // 2025, 2023, 2022 추후에 추가
+            years = ["2025", "2024"]; // 2025, 2023, 2022 추후에 추가
             months = ["6", "9", "11"];
             TNSE.innerText = ""
         } else {
-            years = ["2023", "2022"]; // years는 1st~3rd가 공통됨 (2024, 2022, 2021 추후에 추가)
+            years = ["2024", "2023", "2022"]; // years는 1st~3rd가 공통됨 (2024, 2022, 2021 추후에 추가)
             if(type == "3rd") {
-                months = ["3", "4", "7", "10"]; // 2024 추가 이후에는 5로 바꾸기
+                months = ["3", "5", "7", "10"]; // 2024 추가 이후에는 5로 바꾸기
                 TNSE.innerText = "월 고3 전국연합학력평가";
             } else {
                 months = ["3", "6", "9", "11"]; // months는 1st, 2nd가 공통됨 (2024 추가 이후에는 10으로 바꾸기)
@@ -72,7 +72,7 @@ function yearChange() {
             change.value = "4";
             change.innerText = "4";
         }
-    } else {
+    } else if(type != "sat") {
         const change = monthEl.children[3];
         if(parseInt(yearEl.value) >= 2024) {
             change.value = "10";
@@ -91,11 +91,36 @@ function makeTable() {
     document.querySelector("img.formula").removeAttribute("alt");
     document.querySelector("img.stat").removeAttribute("src");
     document.querySelector("img.stat").removeAttribute("alt");
+
     const divEl = document.querySelector("div.table");
+
     // year, month, type 확정
     year = yearEl.value;
     month = monthEl.value;
     type = typeEl.value;
+
+    if(type == "sat" && year == "2025" && month == "6") {
+        divEl.innerText = "해당 시험의 성적 발표일은 7월 2일(화)입니다."
+        return;
+    }
+    if(type == "sat" && year == "2025" && month == "9") {
+        divEl.innerText = "해당 시험의 성적 발표일은 10월 2일(수)입니다."
+        return;
+    }
+    if(type == "sat" && year == "2025" && month == "11") {
+        divEl.innerText = "해당 시험의 성적 발표일은 12월 6일(금)입니다."
+        return;
+    }
+    if(type != "sat" && year == "2024" && month == "3") {
+        divEl.innerText = "해당 시험의 성적 발표일은 4월 17일(수)입니다."
+        return;
+    }
+    if(type != "sat" && year == "2024" && (month == "5" || month == "6" || month == "7"
+        || month == "9" || month == "10")) {
+        divEl.innerText = "해당 시험의 성적 발표일은 아직 정해지지 않았습니다."
+        return;
+    }
+
     if(divEl.firstChild)
         divEl.removeChild(divEl.firstChild);
 
@@ -237,7 +262,7 @@ function showInfo() {
             korEl[5].innerText = data[key]["국어"][100-korScore][2];
             KSCN.value = "color: #3030EE";
         } else {
-            korEl[3].innerText = korEl[4].innerText = korEl[5].innerText = 'invalid'; 
+            korEl[3].innerText = korEl[4].innerText = korEl[5].innerText = 'X'; 
             KSCN.value = "color: #EE3030";
         }
 
@@ -254,7 +279,7 @@ function showInfo() {
             mathEl[5].innerText = data[key]["수학"][100-mathScore][2];
             mathScoreColor.value = "color: #3030EE";
         } else {
-            mathEl[3].innerText = mathEl[4].innerText = mathEl[5].innerText = 'invalid'; 
+            mathEl[3].innerText = mathEl[4].innerText = mathEl[5].innerText = 'X'; 
             mathScoreColor.value = "color: #EE3030";
         }
         mathEl[2].firstChild.setAttributeNode(mathScoreColor);
@@ -285,7 +310,7 @@ function showInfo() {
             korEl[5].innerText = data[key]["국어"][idx][1];
             korEl[6].innerText = data[key]["국어"][idx][2];
         } else {
-            korEl[4].innerText = korEl[5].innerText = korEl[6].innerText = 'invalid'; 
+            korEl[4].innerText = korEl[5].innerText = korEl[6].innerText = 'X'; 
         }
 
         // 수학 처리 부분 (고3, 수능)
@@ -314,7 +339,7 @@ function showInfo() {
             mathEl[5].innerText = data[key]["수학"][idx][1];
             mathEl[6].innerText = data[key]["수학"][idx][2];
         } else {
-            mathEl[4].innerText = mathEl[5].innerText = mathEl[6].innerText = 'invalid'; 
+            mathEl[4].innerText = mathEl[5].innerText = mathEl[6].innerText = 'X'; 
         }
     }
 
@@ -327,8 +352,8 @@ function showInfo() {
         engScore == 100 ? 1 : 
         0 <= engScore && engScore <= 9 && engScore != 1 ? 9 :
         2 <= engScore && engScore <= 98 ? 10-parseInt(engScore/10) : 
-        "invalid";
-    ESSN.value = engEl[5].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
+        "X";
+    ESSN.value = engEl[5].innerText != "X" ? "color: #3030EE" : "color: #EE3030";
 
     // 한국사 처리 부분
     const histEl = tbodyEl.children[3].children;
@@ -339,8 +364,8 @@ function showInfo() {
         histScore == 50 ? 1 : 
         45 <= histScore && histScore <= 48 ? 1 :
         2 <= histScore && histScore <= 44 || histScore == 0 ? 10-parseInt(histScore/5+1) : 
-        "invalid";
-    HSSN.value = histEl[5].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
+        "X";
+    HSSN.value = histEl[5].innerText != "X" ? "color: #3030EE" : "color: #EE3030";
 
     // 탐구 처리 부분
     const exp1El = tbodyEl.children[4].children;
@@ -356,16 +381,16 @@ function showInfo() {
             exp1Score == 50 ? 1 : 
             45 <= exp1Score && exp1Score <= 48 ? 1 :
             2 <= exp1Score && exp1Score <= 44 || exp1Score == 0 ? 10-parseInt(exp1Score/5+1) : 
-            "invalid"
-        Ex1SSN.value = exp1El[5].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
+            "X"
+        Ex1SSN.value = exp1El[5].innerText != "X" ? "color: #3030EE" : "color: #EE3030";
 
         exp2El[4].innerText = 
             exp2Score == "" ? "" :
             exp2Score == 50 ? 1 : 
             45 <= exp2Score && exp2Score <= 48 ? 1 :
             2 <= exp2Score && exp2Score <= 44 || exp2Score == 0 ? 10-parseInt(exp2Score/5+1) : 
-            "invalid"
-        Ex2SSN.value = exp2El[4].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
+            "X"
+        Ex2SSN.value = exp2El[4].innerText != "X" ? "color: #3030EE" : "color: #EE3030";
     } else {
         let subject = exp1El[1].firstChild.value;
         // 원점수 처리 (탐구 1선택)
@@ -376,9 +401,9 @@ function showInfo() {
             exp1El[4].innerText = data[key][subject][50-exp1Score][1];
             exp1El[5].innerText = data[key][subject][50-exp1Score][2];
         } else {
-            exp1El[3].innerText = exp1El[4].innerText = exp1El[5].innerText = 'invalid'; 
+            exp1El[3].innerText = exp1El[4].innerText = exp1El[5].innerText = 'X'; 
         }
-        Ex1SSN.value = exp1El[5].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
+        Ex1SSN.value = exp1El[5].innerText != "X" ? "color: #3030EE" : "color: #EE3030";
 
         subject = exp2El[0].firstChild.value;
         // 원점수 처리 (탐구 2선택)
@@ -389,9 +414,9 @@ function showInfo() {
             exp2El[3].innerText = data[key][subject][50-exp2Score][1];
             exp2El[4].innerText = data[key][subject][50-exp2Score][2];
         } else {
-            exp2El[2].innerText = exp2El[3].innerText = exp2El[4].innerText = 'invalid'; 
+            exp2El[2].innerText = exp2El[3].innerText = exp2El[4].innerText = 'X'; 
         }
-        Ex2SSN.value = exp2El[4].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
+        Ex2SSN.value = exp2El[4].innerText != "X" ? "color: #3030EE" : "color: #EE3030";
     }
 
     // 제2외국어&한문 처리 부분
@@ -404,8 +429,8 @@ function showInfo() {
             sflScore == 50 ? 1 : 
             0 <= sflScore && sflScore <= 4 ? 9 :
             5 <= sflScore && sflScore <= 49 ? 10-parseInt(sflScore/5) : 
-            "invalid"
-        SSSN.value = sflEl[5].innerText != "invalid" ? "color: #3030EE" : "color: #EE3030";
+            "X"
+        SSSN.value = sflEl[5].innerText != "X" ? "color: #3030EE" : "color: #EE3030";
     }            
 }
 
