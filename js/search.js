@@ -93,7 +93,10 @@ function makeTable() {
     // year, month, type 확정
     year = yearEl.value;
     month = monthEl.value;
-    type = typeEl.value;
+    typeEls.forEach((t) => {
+        if(t.checked == true)    type = t.value;
+        console.log(type);
+    })
 
     if(type == "sat" && year == "2025" && month == "6") {
         divEl.innerText = "해당 시험의 성적 발표일은 7월 2일(화)입니다."
@@ -105,10 +108,6 @@ function makeTable() {
     }
     if(type == "sat" && year == "2025" && month == "11") {
         divEl.innerText = "해당 시험의 성적 발표일은 12월 6일(금)입니다."
-        return;
-    }
-    if(type != "sat" && year == "2024" && month == "3") {
-        divEl.innerText = "해당 시험의 성적 발표일은 4월 17일(수)입니다."
         return;
     }
     if(type != "sat" && year == "2024" && (month == "5" || month == "6" || month == "7"
