@@ -102,7 +102,7 @@ img.formula[src], img.stat {
 table {
     width: 900px;
     text-align: center;
-    margin: 50px 0;
+    margin: 15px 15px 0 0;
     padding: 10px 0; 
     border: 2px solid #000000;
     border-collapse: collapse;
@@ -144,6 +144,10 @@ table button {
     font-size: 14px;
     font-weight: bold;
     padding: 5px;
+}
+
+div.table p {
+    margin: 5px 0;
 }
 
 th {

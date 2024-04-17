@@ -17,9 +17,9 @@
             <legend>시험 검색</legend>
             <p id="test_type">
                 시험 유형 : 
-                <input type="radio" id="sat" name="test_type" value="sat" checked>
+                <input type="radio" id="sat" name="test_type" value="sat">
                 <label for="sat">고3 평가원</label>
-                <input type="radio" id="3rd" name="test_type" value="3rd">
+                <input type="radio" id="3rd" name="test_type" value="3rd" checked>
                 <label for="3rd">고3 교육청</label>
                 <input type="radio" id="2nd" name="test_type" value="2nd">
                 <label for="2nd">고2 교육청</label>
@@ -30,16 +30,14 @@
             <p id="test_name">
                 시험명 : 
                 <select name='year' id='year' onchange='yearChange()'>
-                    <option value="2025">2025</option> 
                     <option value="2024">2024</option> 
-                    <option value="2023">2023</option>
+                    <option value="2023">2023</option> 
+                    <option value="2022">2022</option>
                 </select>학년도 
                 <select name='month', id='month'>
-                    <option value="6">대학수학능력시험 6월 모의평가</option>
-                    <option value="9">대학수학능력시험 9월 모의평가</option>
-                    <option value="11">대학수학능력시험</option>
+                    <option value="3">3</option>
                 </select>
-                <span></span>
+                <span>월 고3 전국연합학력평가</span>
             </p>
 
             <p id="button">

@@ -2,7 +2,7 @@
 const typeEls = document.querySelectorAll("input[name='test_type']");
 let yearEl = document.querySelector("#year");   
 let monthEl = document.querySelector("#month"); 
-let typeEl = document.querySelector("input#sat");
+let typeEl = document.querySelector("#test_type");
 let year, month, type; // 버튼을 눌렀을 때만 확정되는 값
 let tbodyEl;
 
@@ -37,16 +37,16 @@ typeEls.forEach((type) => {
         let years, months;
         // years와 months의 옵션 지정 ({수능, {3학년, {1,2학년}}}의 논리로 구성되어 있음)
         if(type == "sat") {
-            years = ["2025", "2024", "2023"]; // 2025, 2023, 2022 추후에 추가
+            years = ["2024", "2023"]; // 2025, 2022 추후에 추가
             months = ["6", "9", "11"];
             TNSE.innerText = ""
         } else {
             years = ["2024", "2023", "2022"]; // years는 1st~3rd가 공통됨 (2024, 2022, 2021 추후에 추가)
             if(type == "3rd") {
-                months = ["3", "5", "7", "10"]; // 2024 추가 이후에는 5로 바꾸기
+                months = ["3"]; // 2024 추가 이후에는 5로 바꾸기
                 TNSE.innerText = "월 고3 전국연합학력평가";
             } else {
-                months = ["3", "6", "9", "11"]; // months는 1st, 2nd가 공통됨 (2024 추가 이후에는 10으로 바꾸기)
+                months = ["3"]; // months는 1st, 2nd가 공통됨 (2024 추가 이후에는 10으로 바꾸기)
                 if(type == "2nd")
                     TNSE.innerText = "월 고2 전국연합학력평가";
                 else
@@ -62,26 +62,22 @@ typeEls.forEach((type) => {
 function yearChange() {
     yearEl = document.querySelector("#year");
     monthEl = document.querySelector("#month");
-    const type = typeEl.value;
-    if(type == "3rd") {
-        const change = monthEl.children[1];
-        if(parseInt(yearEl.value) >= 2024) {
-            change.value = "5";
-            change.innerText = "5";
-        } else {
-            change.value = "4";
-            change.innerText = "4";
-        }
-    } else if(type != "sat") {
-        const change = monthEl.children[3];
-        if(parseInt(yearEl.value) >= 2024) {
-            change.value = "10";
-            change.innerText = "10";
-        } else {
-            change.value = "11";
-            change.innerText = "11";
-        }
+    let type;
+    typeEls.forEach((t) => {
+        if(t.checked == true)    type = t.value;
+        console.log(type);
+    })
+    let months;
+
+    if(type == "sat") {
+        months = (yearEl.value == "2025") ? ["6"] : ["6", "9", "11"];
+    } else if(type == "3rd") {
+        months = (yearEl.value == "2024") ? ["3"] : ["3", "4", "7", "10"];
+    } else {
+        months = (yearEl.value == "2024") ? ["3"] : ["3", "6", "9", "11"];
     }
+
+    changeOpts(monthEl, months, type == "sat");
 }
 // 성적표 생성 함수
 function makeTable() {
