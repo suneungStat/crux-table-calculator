@@ -7,6 +7,10 @@ div {
     margin: 50px 0;
 }
 
+div.caution a {
+    display: inline;
+}
+
 div.logo a  {
     display: flex;
     justify-content: center;
@@ -15,6 +19,10 @@ div.logo a  {
 
 div.logo a img {
     width: 540px;
+}
+
+div.caution p {
+    text-align: left;
 }
 
 fieldset {

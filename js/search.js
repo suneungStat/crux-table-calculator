@@ -65,7 +65,6 @@ function yearChange() {
     let type;
     typeEls.forEach((t) => {
         if(t.checked == true)    type = t.value;
-        console.log(type);
     })
     let months;
 
