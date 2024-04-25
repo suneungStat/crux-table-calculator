@@ -37,13 +37,13 @@ typeEls.forEach((type) => {
         let years, months;
         // years와 months의 옵션 지정 ({수능, {3학년, {1,2학년}}}의 논리로 구성되어 있음)
         if(type == "sat") {
-            years = ["2024", "2023"]; // 2025, 2022 추후에 추가
+            years = ["2025", "2024", "2023"]; // 2025, 2022 추후에 추가
             months = ["6", "9", "11"];
             TNSE.innerText = ""
         } else {
             years = ["2024", "2023", "2022"]; // years는 1st~3rd가 공통됨 (2024, 2022, 2021 추후에 추가)
             if(type == "3rd") {
-                months = ["3"]; // 2024 추가 이후에는 5로 바꾸기
+                months = ["3", "5"]; // 2024 추가 이후에는 5로 바꾸기
                 TNSE.innerText = "월 고3 전국연합학력평가";
             } else {
                 months = ["3"]; // months는 1st, 2nd가 공통됨 (2024 추가 이후에는 10으로 바꾸기)
@@ -55,6 +55,22 @@ typeEls.forEach((type) => {
         }
         changeOpts(yearEl, years);
         changeOpts(monthEl, months, type == "sat");
+
+        // 연도 디폴트값 설정
+        if(type == "sat") {
+            document.querySelector('option[value = "2024"]').selected = true; 
+        }
+
+        // 월 디폴트값 설정
+        if(type == "sat" && yearEl.value == "2025") {
+            document.querySelector('option[value = "6"]').selected = true; 
+        } else if(type == "3rd" && yearEl.value == "2024") {
+            document.querySelector('option[value = "3"]').selected = true; 
+        } else if(type == "2nd" && yearEl.value == "2024") {
+            document.querySelector('option[value = "3"]').selected = true; 
+        } else if(type == "1st" && yearEl.value == "2024") {
+            document.querySelector('option[value = "3"]').selected = true; 
+        }
     })
 })
 // 2024학년도부터 고3은 4월 학평이 5월 학평으로 바뀌고
@@ -69,14 +85,25 @@ function yearChange() {
     let months;
 
     if(type == "sat") {
-        months = (yearEl.value == "2025") ? ["6"] : ["6", "9", "11"];
+        months = ["6", "9", "11"];
     } else if(type == "3rd") {
-        months = (yearEl.value == "2024") ? ["3"] : ["3", "4", "7", "10"];
+        months = (yearEl.value == "2024") ? ["3", "5"] : ["3", "4", "7", "10"];
     } else {
         months = (yearEl.value == "2024") ? ["3"] : ["3", "6", "9", "11"];
     }
 
     changeOpts(monthEl, months, type == "sat");
+
+    // 월 디폴트값 설정
+    if(type == "sat" && yearEl.value == "2025") {
+        document.querySelector('option[value = "6"]').selected = true; 
+    } else if(type == "3rd" && yearEl.value == "2024") {
+        document.querySelector('option[value = "3"]').selected = true; 
+    } else if(type == "2nd" && yearEl.value == "2024") {
+        document.querySelector('option[value = "3"]').selected = true; 
+    } else if(type == "1st" && yearEl.value == "2024") {
+        document.querySelector('option[value = "3"]').selected = true; 
+    }
 }
 // 성적표 생성 함수
 function makeTable() {
@@ -94,9 +121,12 @@ function makeTable() {
     month = monthEl.value;
     typeEls.forEach((t) => {
         if(t.checked == true)    type = t.value;
-        console.log(type);
     })
 
+    if(type == "3rd" && year == "2024" && month == "5") {
+        divEl.innerText = "해당 시험의 성적 발표일은 5월 21일(화)입니다."
+        return;
+    }
     if(type == "sat" && year == "2025" && month == "6") {
         divEl.innerText = "해당 시험의 성적 발표일은 7월 2일(화)입니다."
         return;
@@ -109,7 +139,7 @@ function makeTable() {
         divEl.innerText = "해당 시험의 성적 발표일은 12월 6일(금)입니다."
         return;
     }
-    if(type != "sat" && year == "2024" && (month == "5" || month == "6" || month == "7"
+    if(type != "sat" && year == "2024" && (month == "6" || month == "7"
         || month == "9" || month == "10")) {
         divEl.innerText = "해당 시험의 성적 발표일은 아직 정해지지 않았습니다."
         return;

@@ -11,6 +11,10 @@ div.caution a {
     display: inline;
 }
 
+div.caution span {
+    margin: 3px;
+}
+
 div.logo a  {
     display: flex;
     justify-content: center;
