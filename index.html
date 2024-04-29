@@ -19,9 +19,11 @@
         <span>크럭스 입시컨설팅 공식 이메일: crux3200@gmail.com<br></span>
         <span><br></span>
         <span>☆★Update★☆<br></span>
-        <span><strong>[2024-04-25]</strong> 업데이트 내역 알리미 추가</span>
-        <span><strong>[2024-04-18]</strong> 2024학년도 3월 고3(국어, 수학) 데이터 추가</span>
-        <span><strong>[2024-04-17]</strong> 2024학년도 3월 고1(전과목), 고2(전과목), 고3(영어, 한국사, 탐구) 데이터 추가</span>
+        <span>
+            <p><strong>[2024-04-25]</strong> 업데이트 내역 알리미 추가</p>
+            <p><strong>[2024-04-18]</strong> 2024학년도 3월 고3(국어, 수학) 데이터 추가</p>
+            <p><strong>[2024-04-17]</strong> 2024학년도 3월 고1(전과목), 고2(전과목), 고3(영어, 한국사, 탐구) 데이터 추가</p>
+        </span>
     </div>
     <div class="fieldset">
         <fieldset>
@@ -53,7 +55,8 @@
             </p>
 
             <p id="button">
-                <button type="button" onclick="makeTable()">검색</button>
+                <button type="button" onclick="makeTable(0)" class="btn1">검색(원점수→표점/백분위/등급)</button>
+                <button type="button" style="margin-left: 20px" onclick="makeTable(1)" class="btn2">검색(표준점수→원점수)</button>
             </p>
         </fieldset>
     </div>

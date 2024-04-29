@@ -73,6 +73,7 @@ typeEls.forEach((type) => {
         }
     })
 })
+
 // 2024학년도부터 고3은 4월 학평이 5월 학평으로 바뀌고
 // 고1,2는 11월 학평이 10월 학평으로 바뀐다.
 function yearChange() {
@@ -106,7 +107,7 @@ function yearChange() {
     }
 }
 // 성적표 생성 함수
-function makeTable() {
+function makeTable(mode) {
     // 기존에 띄운 통계자료 이미지 제거
     document.querySelector("div.image").firstElementChild.innerText = "";
     document.querySelector("img.formula").removeAttribute("src"); 
@@ -149,46 +150,62 @@ function makeTable() {
         divEl.removeChild(divEl.firstChild);
 
     // 국어와 수학이 공통/선택으로 나뉘어 있는가? (있으면 tableType2, 없으면 tableType1)
-    if(type == "sat" || type == "3rd") 
-        divEl.innerHTML = tableType2;
-    else
-        divEl.innerHTML = tableType1;
-
+    if(mode == 0) {
+        if(type == "sat" || type == "3rd") 
+            divEl.innerHTML = tableType2;
+        else
+            divEl.innerHTML = tableType1;
+    } else {
+        if(type == "sat" || type == "3rd") 
+            divEl.innerHTML = tableType4;
+        else
+            divEl.innerHTML = tableType3;
+    }
+    
     tbodyEl = document.querySelector("tbody"); // 표 생성 후 tbody 요소 지정
 
     // 제2외국어 처리 부분
-    if(type == "1st" || type == "2nd" && month != "10" && month != "11"
-        || type == "3rd" && month != "10") {
+    if(mode == 0) {
         const sfl = document.querySelector("#sfl");
-        sfl.parentNode.removeChild(sfl);
-    } else {
-        let sflList;
-        if(type == "2nd" || type == "3rd" && month == "10") {
-            sflList = ["독일어Ⅰ", "프랑스어Ⅰ", "스페인어Ⅰ", "중국어Ⅰ",
-                "일본어Ⅰ", "러시아어Ⅰ", "한문Ⅰ"];
+        if(type == "1st" || type == "2nd" && month != "10" && month != "11"
+            || type == "3rd" && month != "10") {
+            sfl.parentNode.removeChild(sfl);
         } else {
-            sflList = ["독일어Ⅰ", "프랑스어Ⅰ", "스페인어Ⅰ", "중국어Ⅰ",
-                "일본어Ⅰ", "러시아어Ⅰ", "아랍어Ⅰ", "베트남어Ⅰ", "한문Ⅰ"];
+            let sflList;
+            if(type == "2nd" || type == "3rd" && month == "10") {
+                sflList = ["독일어Ⅰ", "프랑스어Ⅰ", "스페인어Ⅰ", "중국어Ⅰ",
+                    "일본어Ⅰ", "러시아어Ⅰ", "한문Ⅰ"];
+            } else {
+                sflList = ["독일어Ⅰ", "프랑스어Ⅰ", "스페인어Ⅰ", "중국어Ⅰ",
+                    "일본어Ⅰ", "러시아어Ⅰ", "아랍어Ⅰ", "베트남어Ⅰ", "한문Ⅰ"];
+            }
+
+            const sflSelectEl = sfl.children[1].firstChild;
+            changeOpts(sflSelectEl, sflList);
         }
-
-        const sflSelectEl = tbodyEl.children[6].children[1].firstChild;
-        changeOpts(sflSelectEl, sflList);
     }
-
+    
     // 탐구 처리 부분
+    const ex1 = document.querySelector("#ex1");
+    const ex2 = document.querySelector("#ex2");
     if(type == "1st") {
         // 1학년인가? (1학년이면 탐구 선택과목 자동 지정, 표준점수와 등급은 지원 안 됨)
-        if(month == "3") {
-            tbodyEl.children[4].children[1].innerText = "사회";
-            tbodyEl.children[5].children[0].innerText = "과학";
+        if(mode == 0) {
+            if(month == "3") {
+                ex1.children[1].innerText = "사회";
+                ex2.children[0].innerText = "과학";
+            } else {
+                ex1.children[1].innerText = "통합 사회";
+                ex2.children[0].innerText = "통합 과학";
+            }
+            ex1.children[3].innerText = 
+                ex1.children[4].innerText = 
+                ex2.children[2].innerText = 
+                ex2.children[3].innerText = "-";
         } else {
-            tbodyEl.children[4].children[1].innerText = "통합 사회";
-            tbodyEl.children[5].children[0].innerText = "통합 과학";
-        }
-        tbodyEl.children[4].children[3].innerText = 
-            tbodyEl.children[4].children[4].innerText = 
-            tbodyEl.children[5].children[2].innerText = 
-            tbodyEl.children[5].children[3].innerText = "-";
+            ex1.parentNode.removeChild(ex1);
+            ex2.parentNode.removeChild(ex2);
+        } 
     } else {
         let expList;
         // 2학년 3~9월, 3학년 3월 (기본)
@@ -217,14 +234,19 @@ function makeTable() {
         const exp2SelectEl = document.createElement("select");
         const onclickAttr1 = document.createAttribute("onclick");
         const onclickAttr2 = document.createAttribute("onclick");
-        onclickAttr1.value = "showInfo()";
-        onclickAttr2.value = "showInfo()";
+        if(mode == 0) {
+            onclickAttr1.value = "showInfo1()";
+            onclickAttr2.value = "showInfo1()";
+        } else {
+            onclickAttr1.value = "showInfo2()";
+            onclickAttr2.value = "showInfo2()";
+        }
         exp1SelectEl.setAttributeNode(onclickAttr1);
         exp2SelectEl.setAttributeNode(onclickAttr2);
         changeOpts(exp1SelectEl, expList);
         changeOpts(exp2SelectEl, expList);
-        tbodyEl.children[4].children[1].appendChild(exp1SelectEl);
-        tbodyEl.children[5].children[0].appendChild(exp2SelectEl);
+        ex1.children[1].appendChild(exp1SelectEl);
+        ex2.children[0].appendChild(exp2SelectEl);
     }
 
     // 국어&수학 선택과목 선택기
@@ -239,11 +261,17 @@ function makeTable() {
         tbodyEl.children[1].children[1].appendChild(mathSelectEl);
         const onclickAttr1 = document.createAttribute("onclick");
         const onclickAttr2 = document.createAttribute("onclick");
-        onclickAttr1.value = "showInfo()";        
-        onclickAttr2.value = "showInfo()";
+        if(mode == 0) {
+            onclickAttr1.value = "showInfo1()";
+            onclickAttr2.value = "showInfo1()";
+        } else {
+            onclickAttr1.value = "showInfo2()";
+            onclickAttr2.value = "showInfo2()";
+        }
         korSelectEl.setAttributeNode(onclickAttr1);
         mathSelectEl.setAttributeNode(onclickAttr2);
     }
+
     // 테이블 제목
     const titleEl = document.querySelector("caption");
     if(type == "sat")  {
@@ -256,19 +284,21 @@ function makeTable() {
     }
 
     // 너비 조정
-    if(type == "2nd" && month.length == 2) {
-        const thEl = document.querySelectorAll("th");
-        thEl[0].getAttributeNode("width").value = "20%"
-        thEl[1].getAttributeNode("width").value = "25%"
-        thEl[2].getAttributeNode("width").value = "15%"
-        thEl[3].getAttributeNode("width").value = "10%"
-        thEl[4].getAttributeNode("width").value = "10%"
-        thEl[5].getAttributeNode("width").value = "10%"
-        thEl[6].getAttributeNode("width").value = "10%"
+    if(mode == 0) {
+        if(type == "2nd" && month.length == 2) {
+            const thEl = document.querySelectorAll("th");
+            thEl[0].getAttributeNode("width").value = "20%"
+            thEl[1].getAttributeNode("width").value = "25%"
+            thEl[2].getAttributeNode("width").value = "15%"
+            thEl[3].getAttributeNode("width").value = "10%"
+            thEl[4].getAttributeNode("width").value = "10%"
+            thEl[5].getAttributeNode("width").value = "10%"
+            thEl[6].getAttributeNode("width").value = "10%"
+        }
     }
 }
 
-function showInfo() {
+function showInfo1() {
     let key = year + month + type; // 딕셔너리형 데이터의 key
     // 국어&수학 처리 부분. 1~2학년은 if문에서, 3학년은 else문에서 처리
     if(type == "1st" || type == "2nd") {
@@ -330,9 +360,14 @@ function showInfo() {
             korEl[4].innerText = korStandard;
 
             let idx = 1;
-            while(data[key]["국어"][idx][0] != korStandard) idx++;
-            korEl[5].innerText = data[key]["국어"][idx][1];
-            korEl[6].innerText = data[key]["국어"][idx][2];
+            while(idx < data[key]["국어"].length && data[key]["국어"][idx][0] != korStandard) idx++;
+            if(idx < data[key]["국어"].length) {
+                korEl[5].innerText = data[key]["국어"][idx][1];
+                korEl[6].innerText = data[key]["국어"][idx][2];
+            } else {
+                korEl[5].innerText = "N/A";
+                korEl[6].innerText = "N/A";
+            }
         } else {
             korEl[4].innerText = korEl[5].innerText = korEl[6].innerText = 'X'; 
         }
@@ -359,9 +394,14 @@ function showInfo() {
                 mathEl[4].innerText = mathStandard;
 
             let idx = 1;
-            while(data[key]["수학"][idx][0] != mathStandard) idx++;
-            mathEl[5].innerText = data[key]["수학"][idx][1];
-            mathEl[6].innerText = data[key]["수학"][idx][2];
+            while(idx < data[key]["수학"].length && data[key]["수학"][idx][0] != mathStandard) idx++;
+            if(idx < data[key]["수학"].length) {
+                mathEl[5].innerText = data[key]["수학"][idx][1];
+                mathEl[6].innerText = data[key]["수학"][idx][2];
+            } else {
+                mathEl[5].innerText = "N/A";
+                mathEl[6].innerText = "N/A";
+            }
         } else {
             mathEl[4].innerText = mathEl[5].innerText = mathEl[6].innerText = 'X'; 
         }
@@ -392,8 +432,8 @@ function showInfo() {
     HSSN.value = histEl[5].innerText != "X" ? "color: #3030EE" : "color: #EE3030";
 
     // 탐구 처리 부분
-    const exp1El = tbodyEl.children[4].children;
-    const exp2El = tbodyEl.children[5].children;
+    const exp1El = ex1.children;
+    const exp2El = ex2.children;
     const exp1Score = exp1El[2].firstChild.value; // 탐구1 원점수
     const exp2Score = exp2El[1].firstChild.value; // 탐구2 원점수
     const Ex1SSN = exp1El[2].firstChild.getAttributeNode("style");
@@ -456,6 +496,541 @@ function showInfo() {
             "X"
         SSSN.value = sflEl[5].innerText != "X" ? "color: #3030EE" : "color: #EE3030";
     }            
+}
+
+function showInfo2() {
+    let key = year + month + type; // 딕셔너리형 데이터의 key
+    // 국어&수학 처리 부분. 1~2학년은 if문에서, 3학년은 else문에서 처리
+    const kor = document.querySelector("#kor").children;
+    const math = document.querySelector("#math").children;
+    const korStd = parseInt(kor[2].firstChild.value);
+    const mathStd = parseInt(math[2].firstChild.value);
+    if(type == "1st" || type == "2nd") {
+        // 국어 처리 부분 (고1, 고2)
+        let idx = 0;
+        if(!korStd) {
+            kor[3].innerText = "";
+        } else if(0 <= korStd && korStd <= 200) {
+            while(idx < data[key]["국어"].length && data[key]["국어"][idx][0] != korStd) idx++;
+            if(idx >= data[key]["국어"].length) {
+                kor[3].innerText = "N/A";
+            } else {
+                let idx2 = data[key]["국어"].length-1;
+                while(idx2 > -1 && data[key]["국어"][idx2][0] != korStd) idx2--;
+                if(idx != idx2) {
+                    kor[3].innerText = `${100-idx2} ~ ${100-idx}`
+                } else {
+                    kor[3].innerText = 100-idx;
+                }
+            } 
+        } else {
+            kor[3].innerText = "X";
+        }
+        kor[2].firstChild.style = kor[3].innerText != "X" ? "color: #3030EE" : "color: #EE3030"; 
+
+        // 수학 처리 부분 (고1, 고2)
+        idx = 0;
+        if(!mathStd) {
+            math[3].innerText = "";
+        } else if(0 <= mathStd && mathStd <= 200) {
+            while(idx < data[key]["수학"].length && data[key]["수학"][idx][0] != mathStd) idx++;
+            if(idx >= data[key]["수학"].length) {
+                math[3].innerText = "N/A";
+            } else {
+                let idx2 = data[key]["수학"].length-1;
+                while(idx2 > -1 && data[key]["수학"][idx2][0] != mathStd) idx2--;
+                if(idx != idx2) {
+                    math[3].innerText = `${100-idx2} ~ ${100-idx}`
+                } else {
+                    math[3].innerText = 100-idx;
+                }
+            } 
+        } else {
+            math[3].innerText = "X";
+        }
+        math[2].firstChild.style = math[3].innerText != "X" ? "color: #3030EE" : "color: #EE3030"; 
+    } else {
+        const korChoice = kor[1].firstChild.value;
+        const mathChoice = math[1].firstChild.value;
+        const korMemory = data[key]["국어"][0][korChoice] // 국어 표준점수 산출식 저장된 곳
+        const mathMemory = data[key]["수학"][0][mathChoice] // 수학 표준점수 산출식 저장된 곳
+        let k = kor[3].firstChild.value;
+        let m = math[3].firstChild.value;
+        // 국어 처리 부분 (고3, 수능)
+        let idx = 1;
+        if(!korStd) {
+            kor[4].innerText = ""
+        } else if(0 <= korStd && korStd <= 200) {
+            kor[2].firstChild.style = "color: #3030EE";
+            while(idx < data[key]["국어"].length && data[key]["국어"][idx][0] != korStd) idx++;
+            if(k < 0 || k == 1 || k == 23 || k > 24) {
+                kor[4].innerText = "X"
+                kor[3].firstChild.style = "color: #EE3030"
+            } else if(idx == data[key]["국어"].length) {
+                kor[3].firstChild.style = "color: #3030EE"
+                kor[4].innerText = "N/A"
+            } else {
+                if(k) {
+                    kor[3].firstChild.style = "color: #3030EE"
+                    if(k == 0 || 1 < k && k < 23 || k == 24) {
+                        k = parseInt(k);
+                        let min = parseInt(1 + ((korStd - 0.5) - korMemory[2] - korMemory[1]*k)/korMemory[0]);
+                        let max = parseInt(((korStd + 0.5) - korMemory[2] - korMemory[1]*k)/korMemory[0]);
+                        let minValidity = (min == 0 || 1 < min && min < 75 || min == 76)
+                        let maxValidity = (max == 0 || 1 < max && max < 75 || max == 76)
+                        if(minValidity && maxValidity) {
+                            if(min == max) {
+                                kor[4].innerText = min + k;
+                            } else {
+                                kor[4].innerText = `${min + k} ~ ${max + k}`;
+                            }
+                        } else if(minValidity) {
+                            kor[4].innerText = min + k;
+                        } else if(maxValidity) {
+                            kor[4].innerText = max + k;
+                        } else {
+                            kor[4].innerText = "N/A";
+                        }
+                        kor[3].firstChild.style = "color: #3030EE"
+                    } else {
+                        kor[4].innerText = "X";
+                        kor[3].firstChild.style = "color: #EE3030"
+                    }
+                } else {
+                    let g=0, s=0, min, max, temp;
+                    if(korStd > parseInt(76*korMemory[0] + 24*korMemory[1] + korMemory[2] + 0.5)) {
+                        kor[4].innerText = "N/A";
+                    } else if(korMemory[0] >= korMemory[1]) {
+                        for(s=0; s<24; s++) {
+                            if(s == 1 || s == 23)
+                                continue;
+                            temp = parseInt(s*korMemory[1] + korMemory[2] + 0.5);
+                            if(temp >= korStd)
+                                break;
+                        }
+                        if(temp < korStd) {
+                            for(g=0; g<=76; g++) {
+                                if(g == 1 || g == 75)
+                                    continue;
+                                temp = parseInt(g*korMemory[0] + 24*korMemory[1] + korMemory[2] + 0.5);
+                                if(temp >= korStd)
+                                    break;
+                            }
+                        }
+                        if(temp == korStd) {
+                            max = g + s;
+                        } else {
+                            g--;
+                            for(; g<=76 && s>=0; g++, s--) {
+                                if(g == 1 || g == 75 || s == 1 || s == 23)
+                                    continue;
+                                temp = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
+                                if(temp == korStd)
+                                    break;
+                            }
+                            if(temp == korStd && 0 <= g && g <= 76 && 0 <= s && s <= 24)
+                                max = g + s;
+                            else if(g + s == 77)
+                                max = 76;
+                            else
+                                max = -1;
+                        }
+
+                        g = 76;
+                        for(s=24; s>0; s--) {
+                            if(s == 1 || s == 23)
+                                continue;
+                            temp = parseInt(76*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
+                            if(temp <= korStd)
+                                break;
+                        }
+                        if(temp > korStd) {
+                            for(g=76; g>=0; g--) {
+                                if(g == 1 || g == 75)
+                                    continue;
+                                temp = parseInt(g*korMemory[0] + korMemory[2] + 0.5);
+                                if(temp <= korStd)
+                                    break;
+                            }
+                        }
+                        if(temp == korStd) {
+                            min = g + s;
+                        } else {
+                            s++;
+                            for(; s<=24 && g>=0; s++, g--) {
+                                if(g == 1 || g == 75 || s == 1 || s == 23)
+                                    continue;
+                                temp = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
+                                if(temp == korStd)
+                                    break;
+                            }
+                            if(temp == korStd && 0 <= g && g <= 76 && 0 <= s && s <= 24)
+                                min = g + s;
+                            else
+                                min = -1;
+                        }
+                        if(min == -1 && max == -1)
+                            kor[4].innerText = "N/A";
+                        else if(min == -1)
+                            kor[4].innerText = max;
+                        else if(max == -1)
+                            kor[4].innerText = min;
+                        else if(min == max)
+                            kor[4].innerText = min;
+                        else
+                            kor[4].innerText = `${min} ~ ${max}`;
+                    } else {
+                        for(g=0; g<76; g++) {
+                            if(g == 1 || g == 75)
+                                continue;
+                            temp = parseInt(g*korMemory[0] + korMemory[2] + 0.5);
+                            if(temp >= korStd)
+                                break;
+                        }
+                        if(temp < korStd) {
+                            for(s=0; s<=24; s++) {
+                                if(s == 1 || s == 23)
+                                    continue;
+                                temp = parseInt(76*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
+                                if(temp >= korStd)
+                                    break;
+                            }
+                        }
+                        if(temp == korStd) {
+                            max = g + s;
+                        } else {
+                            s--;
+                            for(; s<=24 && g>=0; s++, g--) {
+                                if(g == 1 || g == 75 || s == 1 || s == 23)
+                                    continue;
+                                temp = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
+                                if(temp == korStd)
+                                    break;
+                            }
+                            if(temp == korStd && 0 <= g && g <= 76 && 0 <= s && s <= 24)
+                                max = g + s;
+                            else if(g + s == 23)
+                                max = 22;
+                            else
+                                max = -1;
+                        }
+
+                        s = 24;
+                        for(g=76; g>0; g--) {
+                            if(g == 1 || g == 75)
+                                continue;
+                            temp = parseInt(g*korMemory[0] + 24*korMemory[1] + korMemory[2] + 0.5);
+                            if(temp <= korStd)
+                                break;
+                        }
+                        if(temp > korStd) {
+                            for(s=24; s>=0; s--) {
+                                if(s == 1 || s == 23)
+                                    continue;
+                                temp = parseInt(s*korMemory[1] + korMemory[2] + 0.5);
+                                if(temp <= korStd)
+                                    break;
+                            }
+                        }
+                        if(temp == korStd) {
+                            min = g + s;
+                        } else {
+                            g++;
+                            for(; g<=76 && s>=0; g++, s--) {
+                                if(g == 1 || g == 75 || s == 1 || s == 23)
+                                    continue;
+                                temp = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
+                                if(temp == korStd)
+                                    break;
+                            }
+                            if(temp == korStd && 0 <= g && g <= 76 && 0 <= s && s <= 24)
+                                min = g + s;
+                            else
+                                min = -1;
+                        }
+                        if(min == -1 && max == -1)
+                            kor[4].innerText = "N/A";
+                        else if(min == -1)
+                            kor[4].innerText = max;
+                        else if(max == -1)
+                            kor[4].innerText = min;
+                        else if(min == max)
+                            kor[4].innerText = min;
+                        else
+                            kor[4].innerText = `${min} ~ ${max}`;
+                    }
+                }
+            }
+        } else {
+            kor[2].firstChild.style = "color: #EE3030";
+            kor[4].innerText = "X";
+        }
+
+        // 수학 처리 부분 (고3, 수능)
+        idx = 1;
+        if(!mathStd) {
+            math[4].innerText = ""
+        } else if(0 <= mathStd && mathStd <= 200) {
+            math[2].firstChild.style = "color: #3030EE";
+            while(idx < data[key]["수학"].length && data[key]["수학"][idx][0] != mathStd) idx++;
+            if(m < 0 || m == 1 || m == 25 || m > 26) {
+                math[4].innerText = "X"
+                math[3].firstChild.style = "color: #EE3030"
+            } else if(idx == data[key]["수학"].length) {
+                math[3].firstChild.style = "color: #3030EE"
+                math[4].innerText = "N/A"
+            } else {
+                if(m) {
+                    math[3].firstChild.style = "color: #3030EE"
+                    if(m == 0 || 1 < m && m < 25 || m == 26) {
+                        m = parseInt(m);
+                        let min = parseInt(1 + ((mathStd - 0.5) - mathMemory[2] - mathMemory[1]*m)/mathMemory[0]);
+                        let max = parseInt(((mathStd + 0.5) - mathMemory[2] - mathMemory[1]*m)/mathMemory[0]);
+                        let minValidity = (min == 0 || 1 < min && min < 73 || min == 74)
+                        let maxValidity = (max == 0 || 1 < max && max < 73 || max == 74)
+                        if(minValidity && maxValidity) {
+                            if(min == max) {
+                                math[4].innerText = min + m;
+                            } else {
+                                math[4].innerText = `${min + m} ~ ${max + m}`;
+                            }
+                        } else if(minValidity) {
+                            math[4].innerText = min + m;
+                        } else if(maxValidity) {
+                            math[4].innerText = max + m;
+                        } else {
+                            math[4].innerText = "N/A";
+                        }
+                        math[3].firstChild.style = "color: #3030EE"
+                    } else {
+                        math[4].innerText = "X";
+                        math[3].firstChild.style = "color: #EE3030"
+                    }
+                } else {
+                    let g=0, s=0, min, max, temp;
+                    if(mathStd > parseInt(74*mathMemory[0] + 26*mathMemory[1] + mathMemory[2] + 0.5)) {
+                        math[4].innerText = "N/A";
+                    } else if(mathMemory[0] >= mathMemory[1]) {
+                        for(s=0; s<26; s++) {
+                            if(s == 1 || s == 25)
+                                continue;
+                            temp = parseInt(s*mathMemory[1] + mathMemory[2] + 0.5);
+                            if(temp >= mathStd)
+                                break;
+                        }
+                        if(temp < mathStd) {
+                            for(g=0; g<=74; g++) {
+                                if(g == 1 || g == 73)
+                                    continue;
+                                temp = parseInt(g*mathMemory[0] + 26*mathMemory[1] + mathMemory[2] + 0.5);
+                                if(temp >= mathStd)
+                                    break;
+                            }
+                        }
+                        if(temp == mathStd) {
+                            max = g + s;
+                        } else {
+                            s--;
+                            for(; g<=74 && s>=0; g++, s--) {
+                                if(g == 1 || g == 73 || s == 1 || s == 25)
+                                    continue;
+                                temp = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
+                                if(temp == mathStd)
+                                    break;
+                            }
+                            if(temp == mathStd && 0 <= g && g <= 74 && 0 <= s && s <= 26)
+                                max = g + s;
+                            else if(g + s == 25)
+                                max = 24;
+                            else
+                                max = -1;
+                        }
+
+                        g = 74;
+                        for(s=26; s>0; s--) {
+                            if(s == 1 || s == 25)
+                                continue;
+                            temp = parseInt(74*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
+                            if(temp <= mathStd)
+                                break;
+                        }
+                        if(temp > mathStd) {
+                            for(g=74; g>=0; g--) {
+                                if(g == 1 || g == 73)
+                                    continue;
+                                temp = parseInt(g*mathMemory[0] + mathMemory[2] + 0.5);
+                                if(temp <= mathStd)
+                                    break;
+                            }
+                        }
+                        if(temp == mathStd) {
+                            min = g + s;
+                        } else {
+                            s++;
+                            for(; s<=26 && g>=0; s++, g--) {
+                                if(g == 1 || g == 73 || s == 1 || s == 25)
+                                    continue;
+                                temp = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
+                                if(temp == mathStd)
+                                    break;
+                            }
+                            if(temp == mathStd && 0 <= g && g <= 74 && 0 <= s && s <= 26)
+                                min = g + s;
+                            else
+                                min = -1;
+                        }
+                        if(min == -1 && max == -1)
+                            math[4].innerText = "N/A";
+                        else if(min == -1)
+                            math[4].innerText = max;
+                        else if(max == -1)
+                            math[4].innerText = min;
+                        else if(min == max)
+                            math[4].innerText = min;
+                        else
+                            math[4].innerText = `${min} ~ ${max}`;
+                    } else {
+                        for(g=0; g<74; g++) {
+                            if(g == 1 || g == 73)
+                                continue;
+                            temp = parseInt(g*mathMemory[0] + mathMemory[2] + 0.5);
+                            if(temp >= mathStd)
+                                break;
+                        }
+                        if(temp < mathStd) {
+                            for(s=0; s<=26; s++) {
+                                if(s == 1 || s == 25)
+                                    continue;
+                                temp = parseInt(74*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
+                                if(temp >= mathStd)
+                                    break;
+                            }
+                        }
+                        if(temp == mathStd) {
+                            max = g + s;
+                        } else {
+                            g--;
+                            for(; s<=26 && g>=0; s++, g--) {
+                                if(g == 1 || g == 73 || s == 1 || s == 25)
+                                    continue;
+                                temp = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
+                                if(temp == mathStd)
+                                    break;
+                            }
+                            if(temp == mathStd && 0 <= g && g <= 74 && 0 <= s && s <= 26)
+                                max = g + s;
+                            else if(g + s == 75)
+                                max = 74;
+                            else
+                                max = -1;
+                        }
+
+                        s = 26;
+                        for(g=74; g>0; g--) {
+                            if(g == 1 || g == 73)
+                                continue;
+                            temp = parseInt(g*mathMemory[0] + 26*mathMemory[1] + mathMemory[2] + 0.5);
+                            if(temp <= mathStd)
+                                break;
+                        }
+                        if(temp > mathStd) {
+                            for(s=26; s>=0; s--) {
+                                if(s == 1 || s == 25)
+                                    continue;
+                                temp = parseInt(s*mathMemory[1] + mathMemory[2] + 0.5);
+                                if(temp <= mathStd)
+                                    break;
+                            }
+                        }
+                        if(temp == mathStd) {
+                            min = g + s;
+                        } else {
+                            g++;
+                            for(; g<=74 && s>=0; g++, s--) {
+                                if(g == 1 || g == 73 || s == 1 || s == 25)
+                                    continue;
+                                temp = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
+                                if(temp == mathStd)
+                                    break;
+                            }
+                            if(temp == mathStd && 0 <= g && g <= 74 && 0 <= s && s <= 26)
+                                min = g + s;
+                            else
+                                min = -1;
+                        }
+                        if(min == -1 && max == -1)
+                            math[4].innerText = "N/A";
+                        else if(min == -1)
+                            math[4].innerText = max;
+                        else if(max == -1)
+                            math[4].innerText = min;
+                        else if(min == max)
+                            math[4].innerText = min;
+                        else
+                            math[4].innerText = `${min} ~ ${max}`;
+                    }
+                }
+            }
+        } else {
+            math[2].firstChild.style = "color: #EE3030";
+            math[4].innerText = "X";
+        }
+    }
+
+    if(type != "1st") {
+        const ex1 = document.querySelector("#ex1").children;
+        const ex2 = document.querySelector("#ex2").children;
+        const E1 = ex1[1].firstChild.value;
+        const E2 = ex2[0].firstChild.value;
+        const ex1Std = ex1[2].firstChild.value;
+        const ex2Std = ex2[1].firstChild.value;
+        const ex1Output = type == "2nd" ? ex1[3] : ex1[4];
+        const ex2Output = type == "2nd" ? ex2[2] : ex2[3];
+
+        // 탐구1 처리 부분
+        let idx = 0;
+        if(!ex1Std) {
+            ex1Output.innerText = "";
+        } else if(0 <= ex1Std && ex1Std <= 100) {
+            while(idx < data[key][E1].length && data[key][E1][idx][0] != ex1Std) idx++;
+            if(idx >= data[key][E1].length) {
+                ex1Output.innerText = "N/A";
+            } else {
+                let idx2 = data[key][E1].length-1;
+                while(idx2 > -1 && data[key][E1][idx2][0] != ex1Std) idx2--;
+                if(idx != idx2) {
+                    ex1Output.innerText = `${50-idx2} ~ ${50-idx}`
+                } else {
+                    ex1Output.innerText = 50-idx;
+                }
+            } 
+        } else {
+            ex1Output.innerText = "X";
+        }
+        ex1[2].firstChild.style = ex1Output.innerText != "X" ? "color: #3030EE" : "color: #EE3030"; 
+
+        // 수학 처리 부분 (고1, 고2)
+        idx = 0;
+        if(!ex2Std) {
+            ex2Output.innerText = "";
+        } else if(0 <= ex2Std && ex2Std <= 100) {
+            while(idx < data[key][E2].length && data[key][E2][idx][0] != ex2Std) idx++;
+            if(idx >= data[key][E2].length) {
+                ex2Output.innerText = "N/A";
+            } else {
+                let idx2 = data[key][E2].length-1;
+                while(idx2 > -1 && data[key][E2][idx2][0] != ex2Std) idx2--;
+                if(idx != idx2) {
+                    ex2Output.innerText = `${50-idx2} ~ ${50-idx}`
+                } else {
+                    ex2Output.innerText = 50-idx;
+                }
+            } 
+        } else {
+            ex2Output.innerText = "X";
+        }
+        ex2[1].firstChild.style = ex2Output.innerText != "X" ? "color: #3030EE" : "color: #EE3030"; 
+    }
 }
 
 // 크럭스 테이블 이미지 출력
