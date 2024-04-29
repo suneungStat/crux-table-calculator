@@ -666,6 +666,8 @@ function showInfo2() {
                             }
                             if(temp == korStd && 0 <= g && g <= 76 && 0 <= s && s <= 24)
                                 min = g + s;
+                            else if(g + s == 75)
+                                min = 76;
                             else
                                 min = -1;
                         }
@@ -876,6 +878,8 @@ function showInfo2() {
                             }
                             if(temp == mathStd && 0 <= g && g <= 74 && 0 <= s && s <= 26)
                                 min = g + s;
+                            else if(g + s == 73)
+                                min = 74;
                             else
                                 min = -1;
                         }
