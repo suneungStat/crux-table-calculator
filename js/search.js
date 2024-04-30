@@ -562,206 +562,89 @@ function showInfo2() {
             kor[4].innerText = ""
         } else if(0 <= korStd && korStd <= 200) {
             kor[2].firstChild.style = "color: #3030EE";
-            while(idx < data[key]["국어"].length && data[key]["국어"][idx][0] != korStd) idx++;
-            if(k < 0 || k == 1 || k == 23 || k > 24) {
-                kor[4].innerText = "X"
-                kor[3].firstChild.style = "color: #EE3030"
-            } else if(idx == data[key]["국어"].length) {
-                kor[3].firstChild.style = "color: #3030EE"
-                kor[4].innerText = "N/A"
-            } else {
-                if(k) {
+            if(k && (k == 0 || 1 < k && k < 23 || k == 24)) {
+                if(idx < data[key]["국어"].length) {
                     kor[3].firstChild.style = "color: #3030EE"
-                    if(k == 0 || 1 < k && k < 23 || k == 24) {
-                        k = parseInt(k);
-                        let min = parseInt(1 + ((korStd - 0.5) - korMemory[2] - korMemory[1]*k)/korMemory[0]);
-                        let max = parseInt(((korStd + 0.5) - korMemory[2] - korMemory[1]*k)/korMemory[0]);
-                        let minValidity = (min == 0 || 1 < min && min < 75 || min == 76)
-                        let maxValidity = (max == 0 || 1 < max && max < 75 || max == 76)
-                        if(minValidity && maxValidity) {
-                            if(min == max) {
-                                kor[4].innerText = min + k;
-                            } else {
-                                kor[4].innerText = `${min + k} ~ ${max + k}`;
-                            }
-                        } else if(minValidity) {
+                    k = parseInt(k);
+                    let min = parseInt(1 + ((korStd - 0.5) - korMemory[2] - korMemory[1]*k)/korMemory[0]);
+                    let max = parseInt(((korStd + 0.5) - korMemory[2] - korMemory[1]*k)/korMemory[0]);
+                    let minValidity = (min == 0 || 1 < min && min < 75 || min == 76)
+                    let maxValidity = (max == 0 || 1 < max && max < 75 || max == 76)
+                    if(minValidity && maxValidity) {
+                        if(min == max) {
                             kor[4].innerText = min + k;
-                        } else if(maxValidity) {
-                            kor[4].innerText = max + k;
                         } else {
-                            kor[4].innerText = "N/A";
+                            kor[4].innerText = `${min + k} ~ ${max + k}`;
                         }
-                        kor[3].firstChild.style = "color: #3030EE"
+                    } else if(minValidity) {
+                        kor[4].innerText = min + k;
+                    } else if(maxValidity) {
+                        kor[4].innerText = max + k;
                     } else {
-                        kor[4].innerText = "X";
-                        kor[3].firstChild.style = "color: #EE3030"
-                    }
-                } else {
-                    let g=0, s=0, min, max, temp;
-                    if(korStd > parseInt(76*korMemory[0] + 24*korMemory[1] + korMemory[2] + 0.5)) {
                         kor[4].innerText = "N/A";
-                    } else if(korMemory[0] >= korMemory[1]) {
-                        for(s=0; s<24; s++) {
-                            if(s == 1 || s == 23)
-                                continue;
-                            temp = parseInt(s*korMemory[1] + korMemory[2] + 0.5);
-                            if(temp >= korStd)
-                                break;
-                        }
-                        if(temp < korStd) {
-                            for(g=0; g<=76; g++) {
-                                if(g == 1 || g == 75)
-                                    continue;
-                                temp = parseInt(g*korMemory[0] + 24*korMemory[1] + korMemory[2] + 0.5);
-                                if(temp >= korStd)
-                                    break;
-                            }
-                        }
-                        if(temp == korStd) {
-                            max = g + s;
-                        } else {
-                            g--;
-                            for(; g<=76 && s>=0; g++, s--) {
-                                if(g == 1 || g == 75 || s == 1 || s == 23)
-                                    continue;
-                                temp = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
-                                if(temp == korStd)
-                                    break;
-                            }
-                            if(temp == korStd && 0 <= g && g <= 76 && 0 <= s && s <= 24)
-                                max = g + s;
-                            else if(g + s == 77)
-                                max = 76;
-                            else
-                                max = -1;
-                        }
+                    }
+                    kor[3].firstChild.style = "color: #3030EE"
+                }
+            } else {
+                // 선택과목 원점수 유효하지 않음(전범위 출력)
+                kor[3].firstChild.style = "color: #EE3030"
+                let temp1, temp2, min=-1, max=-1;
+                // 최솟값 구하기
+                for(total = 0; total <= 100; total++) {
+                    if(total == 1 || total == 99)
+                        continue;
 
-                        g = 76;
-                        for(s=24; s>0; s--) {
-                            if(s == 1 || s == 23)
-                                continue;
-                            temp = parseInt(76*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
-                            if(temp <= korStd)
-                                break;
-                        }
-                        if(temp > korStd) {
-                            for(g=76; g>=0; g--) {
-                                if(g == 1 || g == 75)
-                                    continue;
-                                temp = parseInt(g*korMemory[0] + korMemory[2] + 0.5);
-                                if(temp <= korStd)
-                                    break;
-                            }
-                        }
-                        if(temp == korStd) {
-                            min = g + s;
-                        } else {
-                            s++;
-                            for(; s<=24 && g>=0; s++, g--) {
-                                if(g == 1 || g == 75 || s == 1 || s == 23)
-                                    continue;
-                                temp = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
-                                if(temp == korStd)
-                                    break;
-                            }
-                            if(temp == korStd && 0 <= g && g <= 76 && 0 <= s && s <= 24)
-                                min = g + s;
-                            else if(g + s == 75)
-                                min = 76;
-                            else
-                                min = -1;
-                        }
-                        if(min == -1 && max == -1)
-                            kor[4].innerText = "N/A";
-                        else if(min == -1)
-                            kor[4].innerText = max;
-                        else if(max == -1)
-                            kor[4].innerText = min;
-                        else if(min == max)
-                            kor[4].innerText = min;
-                        else
-                            kor[4].innerText = `${min} ~ ${max}`;
-                    } else {
-                        for(g=0; g<76; g++) {
-                            if(g == 1 || g == 75)
-                                continue;
-                            temp = parseInt(g*korMemory[0] + korMemory[2] + 0.5);
-                            if(temp >= korStd)
-                                break;
-                        }
-                        if(temp < korStd) {
-                            for(s=0; s<=24; s++) {
-                                if(s == 1 || s == 23)
-                                    continue;
-                                temp = parseInt(76*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
-                                if(temp >= korStd)
-                                    break;
-                            }
-                        }
-                        if(temp == korStd) {
-                            max = g + s;
-                        } else {
-                            s--;
-                            for(; s<=24 && g>=0; s++, g--) {
-                                if(g == 1 || g == 75 || s == 1 || s == 23)
-                                    continue;
-                                temp = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
-                                if(temp == korStd)
-                                    break;
-                            }
-                            if(temp == korStd && 0 <= g && g <= 76 && 0 <= s && s <= 24)
-                                max = g + s;
-                            else if(g + s == 23)
-                                max = 22;
-                            else
-                                max = -1;
-                        }
+                    // temp1: 선택과목을 최대한 많이 맞힌 경우
+                    s = total >= 24 ? 24 : total;
+                    g = total - s;
+                    if(total == 23) { g = 2; s = 21; }
+                    if(total == 25) { g = 3; s = 22; }
+                    temp1 = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
 
-                        s = 24;
-                        for(g=76; g>0; g--) {
-                            if(g == 1 || g == 75)
-                                continue;
-                            temp = parseInt(g*korMemory[0] + 24*korMemory[1] + korMemory[2] + 0.5);
-                            if(temp <= korStd)
-                                break;
-                        }
-                        if(temp > korStd) {
-                            for(s=24; s>=0; s--) {
-                                if(s == 1 || s == 23)
-                                    continue;
-                                temp = parseInt(s*korMemory[1] + korMemory[2] + 0.5);
-                                if(temp <= korStd)
-                                    break;
-                            }
-                        }
-                        if(temp == korStd) {
-                            min = g + s;
-                        } else {
-                            g++;
-                            for(; g<=76 && s>=0; g++, s--) {
-                                if(g == 1 || g == 75 || s == 1 || s == 23)
-                                    continue;
-                                temp = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
-                                if(temp == korStd)
-                                    break;
-                            }
-                            if(temp == korStd && 0 <= g && g <= 76 && 0 <= s && s <= 24)
-                                min = g + s;
-                            else
-                                min = -1;
-                        }
-                        if(min == -1 && max == -1)
-                            kor[4].innerText = "N/A";
-                        else if(min == -1)
-                            kor[4].innerText = max;
-                        else if(max == -1)
-                            kor[4].innerText = min;
-                        else if(min == max)
-                            kor[4].innerText = min;
-                        else
-                            kor[4].innerText = `${min} ~ ${max}`;
+                    // temp2: 공통과목을 최대한 많이 맞힌 경우
+                    g = total >= 76 ? 76 : total;
+                    s = total - g;
+                    if(total == 75) { g = 73; s = 2; }
+                    if(total == 77) { g = 74; s = 3; }
+                    temp2 = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
+
+                    if(temp1 >= korStd || temp2 >= korStd) {
+                        min = total;
+                        break;
                     }
                 }
+
+                // 최댓값 구하기
+                for(total = 100; total >= 0; total--) {
+                    if(total == 1 || total == 99)
+                        continue;
+
+                    // temp1: 선택과목을 최대한 많이 맞힌 경우
+                    s = total >= 24 ? 24 : total;
+                    g = total - s;
+                    if(total == 23) { g = 2; s = 21; }
+                    if(total == 25) { g = 3; s = 22; }
+                    temp1 = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
+
+                    // temp2: 공통과목을 최대한 많이 맞힌 경우
+                    g = total >= 76 ? 76 : total;
+                    s = total - g;
+                    if(total == 75) { g = 73; s = 2; }
+                    if(total == 77) { g = 74; s = 3; }
+                    temp2 = parseInt(g*korMemory[0] + s*korMemory[1] + korMemory[2] + 0.5);
+
+                    if(temp1 <= korStd || temp2 <= korStd) {
+                        max = total;
+                        break;
+                    }
+                }
+
+                if(min == -1 || max == -1 || min > max)
+                    kor[4].innerText = "N/A"
+                else if(min == max)
+                    kor[4].innerText = min;
+                else   
+                    kor[4].innerText = `${min} ~ ${max}`
             }
         } else {
             kor[2].firstChild.style = "color: #EE3030";
@@ -774,206 +657,87 @@ function showInfo2() {
             math[4].innerText = ""
         } else if(0 <= mathStd && mathStd <= 200) {
             math[2].firstChild.style = "color: #3030EE";
-            while(idx < data[key]["수학"].length && data[key]["수학"][idx][0] != mathStd) idx++;
-            if(m < 0 || m == 1 || m == 25 || m > 26) {
-                math[4].innerText = "X"
-                math[3].firstChild.style = "color: #EE3030"
-            } else if(idx == data[key]["수학"].length) {
+            if(m && (m == 0 || 1 < m && m < 25 || m == 26)) {
                 math[3].firstChild.style = "color: #3030EE"
-                math[4].innerText = "N/A"
-            } else {
-                if(m) {
-                    math[3].firstChild.style = "color: #3030EE"
-                    if(m == 0 || 1 < m && m < 25 || m == 26) {
-                        m = parseInt(m);
-                        let min = parseInt(1 + ((mathStd - 0.5) - mathMemory[2] - mathMemory[1]*m)/mathMemory[0]);
-                        let max = parseInt(((mathStd + 0.5) - mathMemory[2] - mathMemory[1]*m)/mathMemory[0]);
-                        let minValidity = (min == 0 || 1 < min && min < 73 || min == 74)
-                        let maxValidity = (max == 0 || 1 < max && max < 73 || max == 74)
-                        if(minValidity && maxValidity) {
-                            if(min == max) {
-                                math[4].innerText = min + m;
-                            } else {
-                                math[4].innerText = `${min + m} ~ ${max + m}`;
-                            }
-                        } else if(minValidity) {
-                            math[4].innerText = min + m;
-                        } else if(maxValidity) {
-                            math[4].innerText = max + m;
-                        } else {
-                            math[4].innerText = "N/A";
-                        }
-                        math[3].firstChild.style = "color: #3030EE"
+                m = parseInt(m);
+                let min = parseInt(1 + ((mathStd - 0.5) - mathMemory[2] - mathMemory[1]*m)/mathMemory[0]);
+                let max = parseInt(((mathStd + 0.5) - mathMemory[2] - mathMemory[1]*m)/mathMemory[0]);
+                let minValidity = (min == 0 || 1 < min && min < 73 || min == 74)
+                let maxValidity = (max == 0 || 1 < max && max < 73 || max == 74)
+                if(minValidity && maxValidity) {
+                    if(min == max) {
+                        math[4].innerText = min + m;
                     } else {
-                        math[4].innerText = "X";
-                        math[3].firstChild.style = "color: #EE3030"
+                        math[4].innerText = `${min + m} ~ ${max + m}`;
                     }
+                } else if(minValidity) {
+                    math[4].innerText = min + m;
+                } else if(maxValidity) {
+                    math[4].innerText = max + m;
                 } else {
-                    let g=0, s=0, min, max, temp;
-                    if(mathStd > parseInt(74*mathMemory[0] + 26*mathMemory[1] + mathMemory[2] + 0.5)) {
-                        math[4].innerText = "N/A";
-                    } else if(mathMemory[0] >= mathMemory[1]) {
-                        for(s=0; s<26; s++) {
-                            if(s == 1 || s == 25)
-                                continue;
-                            temp = parseInt(s*mathMemory[1] + mathMemory[2] + 0.5);
-                            if(temp >= mathStd)
-                                break;
-                        }
-                        if(temp < mathStd) {
-                            for(g=0; g<=74; g++) {
-                                if(g == 1 || g == 73)
-                                    continue;
-                                temp = parseInt(g*mathMemory[0] + 26*mathMemory[1] + mathMemory[2] + 0.5);
-                                if(temp >= mathStd)
-                                    break;
-                            }
-                        }
-                        if(temp == mathStd) {
-                            max = g + s;
-                        } else {
-                            s--;
-                            for(; g<=74 && s>=0; g++, s--) {
-                                if(g == 1 || g == 73 || s == 1 || s == 25)
-                                    continue;
-                                temp = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
-                                if(temp == mathStd)
-                                    break;
-                            }
-                            if(temp == mathStd && 0 <= g && g <= 74 && 0 <= s && s <= 26)
-                                max = g + s;
-                            else if(g + s == 25)
-                                max = 24;
-                            else
-                                max = -1;
-                        }
+                    math[4].innerText = "N/A";
+                }
+                math[3].firstChild.style = "color: #3030EE"
+            } else {
+                // 선택과목 원점수 유효하지 않음(전범위 출력)
+                math[3].firstChild.style = "color: #EE3030"
+                let temp1, temp2, min=-1, max=-1;
+                // 최솟값 구하기
+                for(total = 0; total <= 100; total++) {
+                    if(total == 1 || total == 99)
+                        continue;
 
-                        g = 74;
-                        for(s=26; s>0; s--) {
-                            if(s == 1 || s == 25)
-                                continue;
-                            temp = parseInt(74*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
-                            if(temp <= mathStd)
-                                break;
-                        }
-                        if(temp > mathStd) {
-                            for(g=74; g>=0; g--) {
-                                if(g == 1 || g == 73)
-                                    continue;
-                                temp = parseInt(g*mathMemory[0] + mathMemory[2] + 0.5);
-                                if(temp <= mathStd)
-                                    break;
-                            }
-                        }
-                        if(temp == mathStd) {
-                            min = g + s;
-                        } else {
-                            s++;
-                            for(; s<=26 && g>=0; s++, g--) {
-                                if(g == 1 || g == 73 || s == 1 || s == 25)
-                                    continue;
-                                temp = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
-                                if(temp == mathStd)
-                                    break;
-                            }
-                            if(temp == mathStd && 0 <= g && g <= 74 && 0 <= s && s <= 26)
-                                min = g + s;
-                            else if(g + s == 73)
-                                min = 74;
-                            else
-                                min = -1;
-                        }
-                        if(min == -1 && max == -1)
-                            math[4].innerText = "N/A";
-                        else if(min == -1)
-                            math[4].innerText = max;
-                        else if(max == -1)
-                            math[4].innerText = min;
-                        else if(min == max)
-                            math[4].innerText = min;
-                        else
-                            math[4].innerText = `${min} ~ ${max}`;
-                    } else {
-                        for(g=0; g<74; g++) {
-                            if(g == 1 || g == 73)
-                                continue;
-                            temp = parseInt(g*mathMemory[0] + mathMemory[2] + 0.5);
-                            if(temp >= mathStd)
-                                break;
-                        }
-                        if(temp < mathStd) {
-                            for(s=0; s<=26; s++) {
-                                if(s == 1 || s == 25)
-                                    continue;
-                                temp = parseInt(74*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
-                                if(temp >= mathStd)
-                                    break;
-                            }
-                        }
-                        if(temp == mathStd) {
-                            max = g + s;
-                        } else {
-                            g--;
-                            for(; s<=26 && g>=0; s++, g--) {
-                                if(g == 1 || g == 73 || s == 1 || s == 25)
-                                    continue;
-                                temp = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
-                                if(temp == mathStd)
-                                    break;
-                            }
-                            if(temp == mathStd && 0 <= g && g <= 74 && 0 <= s && s <= 26)
-                                max = g + s;
-                            else if(g + s == 75)
-                                max = 74;
-                            else
-                                max = -1;
-                        }
+                    // temp1: 선택과목을 최대한 많이 맞힌 경우
+                    s = total >= 26 ? 26 : total;
+                    g = total - s;
+                    if(total == 25) { g = 2; s = 23; }
+                    if(total == 27) { g = 3; s = 24; }
+                    temp1 = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
 
-                        s = 26;
-                        for(g=74; g>0; g--) {
-                            if(g == 1 || g == 73)
-                                continue;
-                            temp = parseInt(g*mathMemory[0] + 26*mathMemory[1] + mathMemory[2] + 0.5);
-                            if(temp <= mathStd)
-                                break;
-                        }
-                        if(temp > mathStd) {
-                            for(s=26; s>=0; s--) {
-                                if(s == 1 || s == 25)
-                                    continue;
-                                temp = parseInt(s*mathMemory[1] + mathMemory[2] + 0.5);
-                                if(temp <= mathStd)
-                                    break;
-                            }
-                        }
-                        if(temp == mathStd) {
-                            min = g + s;
-                        } else {
-                            g++;
-                            for(; g<=74 && s>=0; g++, s--) {
-                                if(g == 1 || g == 73 || s == 1 || s == 25)
-                                    continue;
-                                temp = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
-                                if(temp == mathStd)
-                                    break;
-                            }
-                            if(temp == mathStd && 0 <= g && g <= 74 && 0 <= s && s <= 26)
-                                min = g + s;
-                            else
-                                min = -1;
-                        }
-                        if(min == -1 && max == -1)
-                            math[4].innerText = "N/A";
-                        else if(min == -1)
-                            math[4].innerText = max;
-                        else if(max == -1)
-                            math[4].innerText = min;
-                        else if(min == max)
-                            math[4].innerText = min;
-                        else
-                            math[4].innerText = `${min} ~ ${max}`;
+                    // temp2: 공통과목을 최대한 많이 맞힌 경우
+                    g = total >= 74 ? 74 : total;
+                    s = total - g;
+                    if(total == 73) { g = 71; s = 2; }
+                    if(total == 75) { g = 72; s = 3; }
+                    temp2 = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
+
+                    if(temp1 >= mathStd || temp2 >= mathStd) {
+                        min = total;
+                        break;
                     }
                 }
+
+                // 최댓값 구하기
+                for(total = 100; total >= 0; total--) {
+                    if(total == 1 || total == 99)
+                        continue;
+
+                    // temp1: 선택과목을 최대한 많이 맞힌 경우
+                    s = total >= 26 ? 26 : total;
+                    g = total - s;
+                    if(total == 25) { g = 2; s = 23; }
+                    if(total == 27) { g = 3; s = 24; }
+                    temp1 = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
+
+                    // temp2: 공통과목을 최대한 많이 맞힌 경우
+                    g = total >= 74 ? 74 : total;
+                    s = total - g;
+                    if(total == 73) { g = 71; s = 2; }
+                    if(total == 75) { g = 72; s = 3; }
+                    temp2 = parseInt(g*mathMemory[0] + s*mathMemory[1] + mathMemory[2] + 0.5);
+
+                    if(temp1 <= mathStd || temp2 <= mathStd) {
+                        max = total;
+                        break;
+                    }
+                }
+
+                if(min == -1 || max == -1 || min > max)
+                    math[4].innerText = "N/A"
+                else if(min == max)
+                    math[4].innerText = min;
+                else   
+                    math[4].innerText = `${min} ~ ${max}`
             }
         } else {
             math[2].firstChild.style = "color: #EE3030";
