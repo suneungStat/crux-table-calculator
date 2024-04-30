@@ -298,12 +298,15 @@ const tableType4 =
     * 입력된 표준점수가 유효하지만 해당 시험에 없는 표준점수일 경우에는 결과에 "N/A"가 출력됩니다.<br>\
     <span style="color:white">* </span>예) 어떤 과목 만점자의 표준점수가 141인데, 이 과목 표준점수를 142로 입력하면 N/A 출력<br>\
     * 국어, 수학에서 선택과목 원점수는 선택 사항이며, 공란으로 두거나 유효하지 않은 값을 입력하면 가능한 원점수의<br>\
-    <span style="color:white">* </span><strong>전체</strong> 범위가 출력됩니다. 유효한 선택과목 원점수를 입력하시면 범위를 좁힐 수 있습니다.<br>\
+    <span style="color:white">* </span><strong>전체 범위</strong>가 출력됩니다. 유효한 선택과목 원점수를 입력하시면 범위를 좁힐 수 있습니다.<br>\
+    <span style="color:white">* </span>유효한 선택과목 원점수란?<br>\
+    <span style="color:white">* </span>1) 국어: 0부터 24까지의 정수 (1과 23는 유효하지 않음)<br>\
+    <span style="color:white">* </span>2) 수학: 0부터 26까지의 정수 (1과 25는 유효하지 않음)<br>\
     * 국어, 수학에서 결과로 출력된 원점수는 <strong>공통과목 원점수와 선택과목 원점수가 합산</strong>된 값입니다.<br> \
     <span style="color:white">* </span>공통과목 원점수만 따로 알고싶은 경우에는 (결괏값)에서 (선택과목 원점수)를 빼서 구하시면 됩니다.<br>\
     * 국어, 수학에서 표준점수와 선택과목 원점수를 유효하게 입력했지만, 이에 대응되는 공통과목 원점수가 존재하지 않으면 <br>\
     <span style="color:white">* </span>"N/A"가 출력됩니다.<br> \
-    <span style="color:white">* </span>예) 공통과목 <strong>만점</strong> + 선택과목 18점을 표준점수로 환산하면 132점이 되는 과목이 있다고 가정하였을 때, <br>\
+    <span style="color:white">* </span>예) 공통과목 <strong>만점</strong> + 선택과목 18점을 표준점수로 환산하면 132점이 되는 과목이 있다고 가정했을 때, <br>\
     <span style="color:white">* 예) </span>이 과목의 표준점수를 133으로 입력하고 선택과목 원점수를 18로 입력하면 N/A 출력<br>\
 </p>\
 ';
