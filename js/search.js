@@ -567,14 +567,16 @@ function showInfo2() {
                     kor[3].firstChild.style = "color: #3030EE"
                     k = parseInt(k);
                     let min = parseInt(1 + ((korStd - 0.5) - korMemory[2] - korMemory[1]*k)/korMemory[0]);
-                    let max = parseInt(((korStd + 0.5) - korMemory[2] - korMemory[1]*k)/korMemory[0]);
+                    let max = parseInt(((korStd + 0.49999) - korMemory[2] - korMemory[1]*k)/korMemory[0]);
                     let minValidity = (min == 0 || 1 < min && min < 75 || min == 76)
                     let maxValidity = (max == 0 || 1 < max && max < 75 || max == 76)
                     if(minValidity && maxValidity) {
                         if(min == max) {
                             kor[4].innerText = min + k;
-                        } else {
+                        } else if(min < max) {
                             kor[4].innerText = `${min + k} ~ ${max + k}`;
+                        } else {
+                            kor[4].innerText = "N/A";
                         }
                     } else if(minValidity) {
                         kor[4].innerText = min + k;
@@ -661,14 +663,16 @@ function showInfo2() {
                 math[3].firstChild.style = "color: #3030EE"
                 m = parseInt(m);
                 let min = parseInt(1 + ((mathStd - 0.5) - mathMemory[2] - mathMemory[1]*m)/mathMemory[0]);
-                let max = parseInt(((mathStd + 0.5) - mathMemory[2] - mathMemory[1]*m)/mathMemory[0]);
+                let max = parseInt(((mathStd + 0.49999) - mathMemory[2] - mathMemory[1]*m)/mathMemory[0]);
                 let minValidity = (min == 0 || 1 < min && min < 73 || min == 74)
                 let maxValidity = (max == 0 || 1 < max && max < 73 || max == 74)
                 if(minValidity && maxValidity) {
                     if(min == max) {
                         math[4].innerText = min + m;
-                    } else {
+                    } else if(min < max) {
                         math[4].innerText = `${min + m} ~ ${max + m}`;
+                    } else {
+                        math[4].innerText = "N/A";
                     }
                 } else if(minValidity) {
                     math[4].innerText = min + m;

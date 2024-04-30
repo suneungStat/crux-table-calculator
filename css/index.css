@@ -176,7 +176,9 @@ table button {
 }
 
 div.table p {
+    width: 900px;
     margin: 5px 0;
+    line-height: 150%;
 }
 
 th {
