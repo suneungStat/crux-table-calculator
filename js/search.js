@@ -578,11 +578,7 @@ function showInfo2() {
                         } else {
                             kor[4].innerText = "N/A";
                         }
-                    } else if(minValidity) {
-                        kor[4].innerText = min + k;
-                    } else if(maxValidity) {
-                        kor[4].innerText = max + k;
-                    } else {
+                    }  else {
                         kor[4].innerText = "N/A";
                     }
                     kor[3].firstChild.style = "color: #3030EE"
