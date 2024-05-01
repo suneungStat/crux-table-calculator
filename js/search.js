@@ -670,10 +670,6 @@ function showInfo2() {
                     } else {
                         math[4].innerText = "N/A";
                     }
-                } else if(minValidity) {
-                    math[4].innerText = min + m;
-                } else if(maxValidity) {
-                    math[4].innerText = max + m;
                 } else {
                     math[4].innerText = "N/A";
                 }
