@@ -46,7 +46,7 @@ typeEls.forEach((type) => {
                 months = ["3", "5"]; // 2024 추가 이후에는 5로 바꾸기
                 TNSE.innerText = "월 고3 전국연합학력평가";
             } else {
-                months = ["3"]; // months는 1st, 2nd가 공통됨 (2024 추가 이후에는 10으로 바꾸기)
+                months = ["3", "6"]; // months는 1st, 2nd가 공통됨 (2024 추가 이후에는 10으로 바꾸기)
                 if(type == "2nd")
                     TNSE.innerText = "월 고2 전국연합학력평가";
                 else
@@ -90,7 +90,7 @@ function yearChange() {
     } else if(type == "3rd") {
         months = (yearEl.value == "2024") ? ["3", "5"] : ["3", "4", "7", "10"];
     } else {
-        months = (yearEl.value == "2024") ? ["3"] : ["3", "6", "9", "11"];
+        months = (yearEl.value == "2024") ? ["3", "6"] : ["3", "6", "9", "11"];
     }
 
     changeOpts(monthEl, months, type == "sat");
@@ -124,6 +124,10 @@ function makeTable(mode) {
         if(t.checked == true)    type = t.value;
     })
 
+    if((type == "1st" || type == "2nd") && year == "2024" && month == "6") {
+        divEl.innerText = "해당 시험의 성적 발표일은 6월 21일(금)입니다."
+        return;
+    }
     if(type == "sat" && year == "2025" && month == "6") {
         divEl.innerText = "해당 시험의 성적 발표일은 7월 2일(화)입니다."
         return;
@@ -134,11 +138,6 @@ function makeTable(mode) {
     }
     if(type == "sat" && year == "2025" && month == "11") {
         divEl.innerText = "해당 시험의 성적 발표일은 12월 6일(금)입니다."
-        return;
-    }
-    if(type != "sat" && year == "2024" && (month == "6" || month == "7"
-        || month == "9" || month == "10")) {
-        divEl.innerText = "해당 시험의 성적 발표일은 아직 정해지지 않았습니다."
         return;
     }
 
