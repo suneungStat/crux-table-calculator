@@ -37,11 +37,11 @@ typeEls.forEach((type) => {
         let years, months;
         // years와 months의 옵션 지정 ({수능, {3학년, {1,2학년}}}의 논리로 구성되어 있음)
         if(type == "sat") {
-            years = ["2025", "2024", "2023", "2022"]; // 2025, 2022 추후에 추가
+            years = ["2025", "2024", "2023", "2022"]; 
             months = ["6", "9", "11"];
             TNSE.innerText = ""
         } else {
-            years = ["2024", "2023", "2022"]; // years는 1st~3rd가 공통됨 (2024, 2022, 2021 추후에 추가)
+            years = ["2024", "2023", "2022"]; // years는 1st~3rd가 공통됨 
             if(type == "3rd") {
                 months = ["3", "5"]; // 2024 추가 이후에는 5로 바꾸기
                 TNSE.innerText = "월 고3 전국연합학력평가";
@@ -86,8 +86,7 @@ function yearChange() {
     let months;
 
     if(type == "sat") {
-        months = (yearEl.value == "2022") ? ["6"] : ["6", "9", "11"];
-        // months = ["6", "9", "11"];
+        months = ["6", "9", "11"];
     } else if(type == "3rd") {
         months = (yearEl.value == "2024") ? ["3", "5", "7"] : ["3", "4", "7", "10"];
     } else {
@@ -225,7 +224,7 @@ function makeTable(mode) {
             expList = ["생활과 윤리", "윤리와 사상", "한국지리", "세계지리", "동아시아사",
                 "세계사", "경제", "정치와 법", "사회∙문화", "물리학Ⅰ", "화학Ⅰ", "생명과학Ⅰ",
                 "지구과학Ⅰ", "물리학Ⅱ", "화학Ⅱ", "생명과학Ⅱ", "지구과학Ⅱ", "성공적인 직업생활",
-                "농업 기초 기술", "공업 일반", "상업 경제", "수산∙해운 산업 기초", "인간 발달"];
+                "농업 기초 기술", "공업 일반", "상업 경제", "수산·해운 산업 기초", "인간 발달"];
         const exp1SelectEl = document.createElement("select");
         const exp2SelectEl = document.createElement("select");
         const onclickAttr1 = document.createAttribute("onclick");
