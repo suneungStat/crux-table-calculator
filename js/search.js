@@ -125,10 +125,6 @@ function makeTable(mode) {
         if(t.checked == true)    type = t.value;
     })
 
-    if((type == "1st" || type == "2nd") && year == "2024" && month == "6") {
-        divEl.innerText = "해당 시험의 성적 발표일은 6월 21일(금)입니다."
-        return;
-    }
     if(type == "sat" && year == "2025" && month == "6") {
         divEl.innerText = "해당 시험의 성적 발표일은 7월 2일(화)입니다."
         return;
