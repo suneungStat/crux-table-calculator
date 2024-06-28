@@ -43,7 +43,7 @@ typeEls.forEach((type) => {
         } else {
             years = ["2024", "2023", "2022"]; // years는 1st~3rd가 공통됨 
             if(type == "3rd") {
-                months = ["3", "5"]; // 2024 추가 이후에는 5로 바꾸기
+                months = ["3", "5", "7"]; // 2024 추가 이후에는 5로 바꾸기
                 TNSE.innerText = "월 고3 전국연합학력평가";
             } else {
                 months = ["3", "6"]; // months는 1st, 2nd가 공통됨 (2024 추가 이후에는 10으로 바꾸기)
