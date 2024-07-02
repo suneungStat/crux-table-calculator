@@ -58,7 +58,9 @@ typeEls.forEach((type) => {
 
         // 연도 디폴트값 설정
         if(type == "sat") {
-            document.querySelector('option[value = "2024"]').selected = true; 
+            document.querySelector('option[value = "2025"]').selected = true; 
+        } else{
+            document.querySelector('option[value = "2024"]').selected = true;
         }
 
         // 월 디폴트값 설정
